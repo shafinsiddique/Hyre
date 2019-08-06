@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -94,8 +96,45 @@ public class ApplicantPortalGUI {
         }
     }
 
-    private void showPostingsPage() {
-        ObservableList<String>postings = convertArrayList(applicantInterface.getAllPostingsString());
+    private void displayFilteredPostings(String filter) {
+        if (applicantInterface.findPostingwithKeyword(filter).size() == 0) {
+            AlertBox.display("Error", "No such posting found");
+        }
+
+        else {
+            showPostingsPage(applicantInterface.getPostingsStrings(
+                    applicantInterface.findPostingwithKeyword(filter)));
+        }
+
+    }
+
+    private void searchPostingsPage() {
+        GridPane searchPage = new GridPane();
+        searchPage.setPadding(new Insets(10,10,10,10));
+        searchPage.setVgap(8);
+        searchPage.setHgap(10);
+        searchPage.setAlignment(Pos.CENTER);
+
+        Label nameLabel = new Label("Search Keyword(s):");
+        GridPane.setConstraints(nameLabel, 0, 0);
+
+        TextField search = new TextField();
+        GridPane.setConstraints(search, 0, 1);
+
+        Button searchButton = new Button();
+        searchButton.setText("Search");
+        searchButton.setOnAction(e->
+        {
+            displayFilteredPostings(search.getText().toLowerCase());
+        });
+        GridPane.setConstraints(searchButton, 0, 2);
+        searchPage.getChildren().addAll(nameLabel, search, searchButton);
+        Scene scene = new Scene(searchPage, 300,200);
+        window.setScene(scene);
+    }
+
+    private void showPostingsPage(ArrayList<String>strings) {
+        ObservableList<String>postings = convertArrayList(strings);
 
         ListView<String>postingsList = new ListView<>();
         postingsList.setItems(postings);
@@ -104,9 +143,13 @@ public class ApplicantPortalGUI {
         apply.setOnAction(e -> {
             apply(postingsList.getSelectionModel().getSelectedIndex());
         });
+
+        Button search = new Button();
+        search.setText("Search for postings");
+        search.setOnAction(e -> searchPostingsPage());
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(10,10,10,10));
-        layout.getChildren().addAll(postingsList, apply, backButton);
+        layout.getChildren().addAll(postingsList, apply, backButton, search);
 
         Scene scene = new Scene(layout, 800,400);
         window.setScene(scene);
@@ -151,7 +194,8 @@ public class ApplicantPortalGUI {
         Label welcome = new Label("Welcome Back, " + applicantInterface.getJobApplicant().getUsername() + "!");
         Button viewPostings = new Button();
         viewPostings.setText("View Open Postings");
-        viewPostings.setOnAction(e -> showPostingsPage() );
+        viewPostings.setOnAction(e -> showPostingsPage(applicantInterface.getPostingsStrings
+                (applicantInterface.getAllPostings())));
         Button applicanHistory = new Button();
         applicanHistory.setText("View all your applications");
         applicanHistory.setOnAction(e -> showApplicationHistory());

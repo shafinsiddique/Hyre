@@ -4,6 +4,7 @@ import com.mongodb.client.MongoCollection;
 import javafx.geometry.Pos;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ApplicantPortalInterface {
     private final Applicant jobApplicant;
@@ -21,6 +22,23 @@ public class ApplicantPortalInterface {
         return jobApplicant;
     }
 
+    ArrayList<Posting>findPostingwithKeyword(String filter) {
+        ArrayList<Posting> postings = new ArrayList<>();
+        if (!filter.equals("")) {
+            ArrayList<String> tags = new ArrayList<>(Arrays.asList(filter.split(", ")));
+            for (Posting posting : this.allPostings) {
+                for (String tag : posting.getTags()) {
+                    if (tags.contains(tag)) {
+                        postings.add(posting);
+                    }
+                }
+            }
+        } else {
+            postings = this.allPostings;
+        }
+        return postings;
+    }
+
     ArrayList<String> getApplicationsHistory() {
         ArrayList<String>strings = new ArrayList<>();
 
@@ -33,12 +51,15 @@ public class ApplicantPortalInterface {
         return strings;
     }
 
-    ArrayList<String> getAllPostingsString(){
+    ArrayList<Posting>getAllPostings(){
+        return this.allPostings;
+    };
+
+    ArrayList<String> getPostingsStrings(ArrayList<Posting> posts){
         ArrayList<String> strings = new ArrayList<>();
 
-        for (Posting p : jobApplicant.getAppliedTo().keySet()) {
+        for (Posting p : posts) {
             strings.add(p.getAllInfo());
-
         }
 
         return strings;
