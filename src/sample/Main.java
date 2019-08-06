@@ -58,6 +58,8 @@ public class Main extends Application {
         GridPane.setConstraints(username, 1, 0);
 
         Label passLabel = new Label("password");
+
+
         GridPane.setConstraints(passLabel, 0, 1);
 
         TextField password = new TextField();
@@ -79,7 +81,55 @@ public class Main extends Application {
 
     }
 
+    private void registerApplicant(String name, String password, String resume, String coverletter) {
+
+    }
+
     private void showApplicantRegisterPage() {
+        GridPane registerPage = new GridPane();
+        registerPage.setPadding(new Insets(10,10,10,10));
+        registerPage.setVgap(8);
+        registerPage.setHgap(10);
+        registerPage.setAlignment(Pos.CENTER);
+
+        Label nameLabel = new Label("Username");
+        GridPane.setConstraints(nameLabel, 0, 0);
+
+        TextField username = new TextField();
+        GridPane.setConstraints(username, 1, 0);
+
+        Label passLabel = new Label("Password");
+
+        GridPane.setConstraints(passLabel, 0, 1);
+
+        TextField password = new TextField();
+        GridPane.setConstraints(password, 1, 1);
+
+        Label resumeLabel = new Label("Resume");
+        GridPane.setConstraints(resumeLabel, 0, 2);
+
+        TextField resume = new TextField();
+        GridPane.setConstraints(resume, 1, 2);
+
+        Label coverLetterlabel = new Label("Password");
+        GridPane.setConstraints(coverLetterlabel, 0, 3);
+
+
+        TextField coverletter = new TextField();
+        GridPane.setConstraints(coverletter, 1, 3);
+
+
+        Button registerButton =  new Button();
+        registerButton.setText("Register");
+        GridPane.setConstraints(registerButton, 1, 4);
+
+        registerButton.setOnAction(e ->
+                registerApplicant(username.getText(), password.getText(), resume.getText(), coverletter.getText()));
+        registerPage.getChildren().addAll(nameLabel, username, passLabel, password, resumeLabel, resume, coverletter, coverLetterlabel
+        , registerButton);
+
+        Scene scene = new Scene(registerPage, 300,200);
+        window.setScene(scene);
 
     }
 

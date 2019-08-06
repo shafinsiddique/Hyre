@@ -1,7 +1,6 @@
 package sample;
 
 import com.mongodb.client.MongoCollection;
-import javafx.geometry.Pos;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,7 +28,9 @@ public class ApplicantPortalInterface {
             for (Posting posting : this.allPostings) {
                 for (String tag : posting.getTags()) {
                     if (tags.contains(tag)) {
-                        postings.add(posting);
+                        if (!postings.contains(posting)) {
+                            postings.add(posting);
+                        }
                     }
                 }
             }

@@ -68,11 +68,15 @@ public class Posting {
      * Adds tags to a Posting.
      */
     private void createTags() {
-        this.tags.add(company.getName());
+        this.tags.add(company.getName().toLowerCase());
         this.tags.addAll(new ArrayList<>(Arrays.asList(position.split(" "))));
         this.tags.addAll(new ArrayList<>(Arrays.asList(description.split(" "))));
         this.tags.addAll(new ArrayList<>(Arrays.asList(requirements.split(" "))));
         this.tags.add(Integer.toString(postingID));
+
+        for (int x=0; x<tags.size(); x++) {
+            tags.set(x, tags.get(x).toLowerCase());
+        }
 
     }
 
