@@ -2,6 +2,7 @@ package sample;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -72,9 +73,36 @@ public class Portal {
     }
 
 
-    ApplicantPortalInterface login(Applicant a) {
+    ApplicantPortalInterface Applicantlogin(Applicant a) {
         return new ApplicantPortalInterface(a, getAllPostings(),
                 applicantsCollection);
+    }
+
+    protected void registerApplicant(Applicant a) {
+        jobApplicantUsers.add(a);
+        Document document = new Document();
+        document.append("username", a.username);
+        document.append("password", a.password);
+        document.append("dateCreated", a.getDateCreated());
+        document.append("resume", a.getResume());
+        document.append("coverLetter", a.getCoverLetter());
+        document.append("appliedTo", new ArrayList<>());
+        document.append("interviews", new ArrayList<>());
+        applicantsDatabaseHelper.writeDocument(document);
+    }
+
+    protected Coordinator findCoordinator(String username, String password) {
+        for (Company company : companies) {
+            if (!company.findCoordinator(username, password).isEmpty()) {
+                return company.findCoordinator(username, password);
+            }
+        }
+        return new Coordinator();
+    }
+
+    protected CoordinatorPortalInterface coordinatorLogin(Coordinator c) {
+        return new CoordinatorPortalInterface(c,applicantsCollection,companiesCollection);
+
     }
 
 

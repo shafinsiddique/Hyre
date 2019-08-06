@@ -10,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -35,12 +36,36 @@ public class Main extends Application {
     static Scene getHomeScene() {
         return homeScene;
     }
+
     public void validateApplicant(String username, String password) {
         Applicant a = portal.findApplicant(username, password);
         if (!a.isEmpty()) {
-            ApplicantPortalGUI applicantGUI = new ApplicantPortalGUI(portal.login(a), window);
+            ApplicantPortalGUI applicantGUI = new ApplicantPortalGUI(portal.Applicantlogin(a), window);
             applicantGUI.run();
 
+        }
+
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception{
+        window = primaryStage;
+        portal = new Portal
+                (connectDatabase(), "applicants","companies");
+        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        primaryStage.setTitle("HyRe - All your applications in one place.");
+        showHomePage();
+
+        //
+
+    }
+
+    public void loginCoordinator(String username, String password) {
+        Coordinator c = portal.findCoordinator(username, password);
+
+        if (!c.isEmpty()) {
+            CoordinatorGUI newCoord = new CoordinatorGUI(portal.coordinatorLogin(c), window);
+            newCoord.run();
         }
 
     }
@@ -73,6 +98,10 @@ public class Main extends Application {
             loginbutton.setOnAction(e -> validateApplicant(username.getText(),password.getText()));
         }
 
+        else if(usertype.equals(coordinator)) {
+            loginbutton.setOnAction(e -> loginCoordinator(username.getText(), password.getText()));
+        }
+
 
         loginPage.getChildren().addAll(nameLabel, username, passLabel, password, loginbutton);
 
@@ -82,6 +111,10 @@ public class Main extends Application {
     }
 
     private void registerApplicant(String name, String password, String resume, String coverletter) {
+        Applicant newApplicant = new Applicant(name, password, resume, coverletter);
+        portal.registerApplicant(newApplicant);
+        ApplicantPortalGUI applicantGUI = new ApplicantPortalGUI(portal.Applicantlogin(newApplicant), window);
+        applicantGUI.run();
 
     }
 
@@ -108,14 +141,14 @@ public class Main extends Application {
         Label resumeLabel = new Label("Resume");
         GridPane.setConstraints(resumeLabel, 0, 2);
 
-        TextField resume = new TextField();
+        TextArea resume = new TextArea();
         GridPane.setConstraints(resume, 1, 2);
 
         Label coverLetterlabel = new Label("Password");
         GridPane.setConstraints(coverLetterlabel, 0, 3);
 
 
-        TextField coverletter = new TextField();
+        TextArea coverletter = new TextArea();
         GridPane.setConstraints(coverletter, 1, 3);
 
 
@@ -125,10 +158,12 @@ public class Main extends Application {
 
         registerButton.setOnAction(e ->
                 registerApplicant(username.getText(), password.getText(), resume.getText(), coverletter.getText()));
+
         registerPage.getChildren().addAll(nameLabel, username, passLabel, password, resumeLabel, resume, coverletter, coverLetterlabel
         , registerButton);
 
-        Scene scene = new Scene(registerPage, 300,200);
+
+        Scene scene = new Scene(registerPage, 800,500);
         window.setScene(scene);
 
     }
@@ -212,18 +247,7 @@ public class Main extends Application {
         //Open(database, "applicants", "companies");
         return database;
     }
-    @Override
-    public void start(Stage primaryStage) throws Exception{
-        window = primaryStage;
-        portal = new Portal
-                (connectDatabase(), "applicants","companies");
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("HyRe - All your applications in one place.");
-        showHomePage();
 
-        //
-
-    }
 
     static Date stringToDate(String date) throws ParseException {
         SimpleDateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy");
