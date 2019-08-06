@@ -155,11 +155,16 @@ public class Main extends Application {
         register.setText("Register");
         register.setOnAction( e -> {registrationPage();});
 
+        Button mainMenu = new Button();
+        mainMenu.setText("Main Menu");
+        mainMenu.setOnAction(e -> {showHomePage();});
+
         GridPane pageLayout = new GridPane();
         pageLayout.setAlignment(Pos.CENTER);
         pageLayout.setHgap(5);
         pageLayout.add(login, 0,0);
         pageLayout.add(register, 1, 0);
+        pageLayout.add(mainMenu, 2, 0);
 
         Scene pageScene = new Scene(pageLayout, 400, 150);
         window.setScene(pageScene);
