@@ -132,7 +132,7 @@ public class ApplicantLoginPortal extends Portal {
         Button back = new Button("Go Back");
         back.setOnAction(actionEvent -> this.activityTypePage(usertype));
         VBox vBox = new VBox(5);
-        vBox.getChildren().addAll(usernameField, passwordField, submit, usernameBox, passwordBox, back);
+        vBox.getChildren().addAll(usernameBox, usernameField, passwordBox, passwordField, submit, back);
         Scene scene = new Scene(vBox, 550, 250);
         Stage s = new Stage();
         s.setTitle("VBox Layout Demo");
