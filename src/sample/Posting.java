@@ -18,12 +18,13 @@ public class Posting {
     private final ArrayList<String> tags = new ArrayList<>();
     private boolean closed;
 
+    private String branch;
     protected Posting() {
 
     }
 
     protected Posting(int postingID, String position, String description, String requirements, Company company,
-                      Date expiryDate, ArrayList<String> roundTypes) {
+                      Date expiryDate, ArrayList<String> roundTypes, String location) {
         this.position = position;
         this.description = description;
         this.requirements = requirements;
@@ -32,11 +33,13 @@ public class Posting {
         this.closingDate = expiryDate;
         this.roundTypes = roundTypes;
         this.closed = false;
+        this.branch = location;
 
         createTags();
 
     }
 
+    protected String getBranch() {return this.branch;}
     protected boolean isEmpty() {
 
         return this.position == null;

@@ -40,6 +40,8 @@ public class ApplicantPortalInterface {
         return postings;
     }
 
+
+
     ArrayList<String> getApplicationsHistory() {
         ArrayList<String>strings = new ArrayList<>();
 
@@ -80,5 +82,6 @@ public class ApplicantPortalInterface {
         this.dbUpdater.withdrawApplication(p);
 
     }
+
 
 }

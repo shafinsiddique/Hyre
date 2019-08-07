@@ -68,7 +68,6 @@ public class ApplicantPortalGUI {
         Scene scene = new Scene(layout, 800,400);
         window.setScene(scene);
 
-
     }
 
     private void apply(int index) {

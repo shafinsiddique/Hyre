@@ -70,7 +70,7 @@ class CompanyCollectionHelper {
         for (Document d : postings) {
             docsToPostings.add(new Posting(d.getInteger("postingID"), d.getString("position"),
                     d.getString("description"), d.getString("requirements"), c, d.getDate("expiryDate"),
-                    (ArrayList<String>) d.get("rounds")));
+                    (ArrayList<String>) d.get("rounds"), d.getString("branch")));
 
         }
         return docsToPostings;
@@ -84,7 +84,8 @@ class CompanyCollectionHelper {
     public void addPosting(Posting p) {
         Document d = new Document().append("postingID", p.getPostingID()).append("position", p.getPosition())
                 .append("description", p.getDescription()).append("requirements", p.getRequirements())
-                .append("expiryDate", p.getClosingDate()).append("rounds", p.getRoundTypes());
+                .append("expiryDate", p.getClosingDate()).append("rounds", p.getRoundTypes()).
+                        append("branch",p.getBranch());
 
         companies.updateOne(Filters.eq("name", company.getName()), Updates.addToSet("postings", d));
 
