@@ -135,7 +135,7 @@ public class ApplicantLoginPortal extends Portal {
         vBox.getChildren().addAll(usernameBox, usernameField, passwordBox, passwordField, submit, back);
         Scene scene = new Scene(vBox, 550, 250);
         Stage s = new Stage();
-        s.setTitle("VBox Layout Demo");
+        s.setTitle("Applcant Login");
         s.setScene(scene);
         s.show();
 
