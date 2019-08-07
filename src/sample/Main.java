@@ -35,7 +35,7 @@ public class Main extends Application {
         primaryStage.setTitle("HyRe - All your applications in one place.");
         HomePageGUI gui = new HomePageGUI(portal, window);
         gui.run();
-        conn.close();
+        //conn.close();
 
     }
 
