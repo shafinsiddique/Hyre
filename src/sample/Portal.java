@@ -2,24 +2,29 @@ package sample;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import javafx.scene.Scene;
 import org.bson.Document;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class Portal {
-    ArrayList<Applicant> jobApplicantUsers; //Applicant
-    ArrayList<Company> companies; // Applicant, Employee
-    ArrayList<Referee> refereeUsers; // Applicant, Employee
+    private ArrayList<Applicant> jobApplicantUsers; //Applicant
+    private ArrayList<Company> companies; // Applicant, Employee
+    private ArrayList<Referee> refereeUsers; // Applicant, Employee
 
-    MongoDatabase database; // Applicant, Employee
-    MongoCollection applicantsCollection; // Applicant
-    MongoCollection companiesCollection;
-    MongoCollection refereesCollection;
+    private MongoDatabase database; // Applicant, Employee
+    private MongoCollection applicantsCollection; // Applicant
+    private MongoCollection companiesCollection;
+    private MongoCollection refereesCollection;
 
-    UserCollectionHelper applicantsDatabaseHelper; // Applicant, Employee
-    CompanyCollectionHelper companyDatabaseHelper;
+    private UserCollectionHelper applicantsDatabaseHelper; // Applicant, Employee
+    private CompanyCollectionHelper companyDatabaseHelper;
+    private static String interviewer = "Interviewer";
+    private static String coordinator = "Coordinator";
+    private static String applicant = "Applicant";
 
+    private static String userType;
     /**
      * The MainPortal is a text-based system for use by an Applicants, a Coordinator or an Interviewer
      *
@@ -100,10 +105,36 @@ public class Portal {
         return new Coordinator();
     }
 
+    protected Interviewer findInterviewer(String username, String password) {
+        for (Company company : companies) {
+            if (!company.findInterviewer(username, password).isEmpty()) {
+                return company.findInterviewer(username, password);
+            }
+        }
+        return new Interviewer();
+    }
+
+
+
     protected CoordinatorPortalInterface coordinatorLogin(Coordinator c) {
         return new CoordinatorPortalInterface(c,applicantsCollection,companiesCollection);
 
     }
+    protected static String getInterviewer(){return interviewer;}
+
+    protected static String getCoordinator(){return coordinator;}
+
+    protected static String getApplicant(){return applicant;}
+
+    protected static void setUserType(String type){
+        userType = type;
+    }
+
+    protected static String getUserType(){
+        return userType;
+    }
+
+
 
 
 

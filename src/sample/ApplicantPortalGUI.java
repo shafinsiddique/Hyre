@@ -206,7 +206,7 @@ public class ApplicantPortalGUI {
         notifications.setOnAction(e -> showNotificationsPage());
         Button logOut = new Button();
         logOut.setText("Logout");
-        logOut.setOnAction(e -> window.setScene(Main.getHomeScene()));
+        logOut.setOnAction(e -> window.setScene(HomePageGUI.getHomeScene()));
         VBox homeLayout = new VBox(10);
         homeLayout.setAlignment(Pos.CENTER);
         homeLayout.getChildren().addAll(welcome, profile, notifications, viewPostings, applicanHistory, logOut);

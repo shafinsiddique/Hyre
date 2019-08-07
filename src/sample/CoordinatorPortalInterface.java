@@ -45,6 +45,16 @@ public class CoordinatorPortalInterface {
         helper.addPosting(p);
     }
 
+    ArrayList<String>viewAllApplicants(Posting P) {
+        ArrayList<String>allApplicants = new ArrayList<>();
+        for (Applicant a : P.getApplicantList()) {
+            allApplicants.add(a.getAllInfo());
+        }
+
+        return allApplicants;
+
+    }
+
     protected void createPosting(int postingID, String position, String description, String requirements,
                                       Date expiryDate, String items, String location) throws IOException {
 
@@ -57,7 +67,7 @@ public class CoordinatorPortalInterface {
         addPostingToDatabase(p);
 
     }
-    private ArrayList<String> viewAllPostings() {
+    ArrayList<String> allPostingsString() {
         ArrayList<String> postings = new ArrayList<String>();
         for (Posting p : company.getPostings()) {
             postings.add(p.getAllInfo());
@@ -65,6 +75,9 @@ public class CoordinatorPortalInterface {
         return postings;
     }
 
+    Posting findPosting(int index) {
+        return company.getPostings().get(index);
+    }
     private void sendMessageToApplicant(Applicant a, String m) {
         a.addMessage(m);
         UserCollectionHelper statusUpdater = new UserCollectionHelper(a, usersCollection);
@@ -72,7 +85,7 @@ public class CoordinatorPortalInterface {
     }
 
     private void scheduleInterviewScreen(Posting p, Applicant a, Interviewer i, Date d) {
-        viewAllPostings();
+        allPostingsString();
         Interview newInterview = coordinator.scheduleInterview(p, a, i, d);
         addInterviewToDatabase(newInterview);
         sendMessageToApplicant(a, "You have been scheduled an interview with " +
