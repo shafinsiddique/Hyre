@@ -43,9 +43,6 @@
 //        this.jobApplicantUsers = applicantsDatabaseHelper.loadApplicants();
 //    }
 //
-//    protected void run() throws IOException {
-//    }
-//
 //    /**
 //     * Returns Company object given the the name of the company.
 //     *
@@ -78,25 +75,8 @@
 //        return new Applicant();
 //    }
 //
-//    protected String fileToString(String filename) throws IOException {
-//        File file = new File("./phase2/" + filename);
-//        if (!file.exists()) {
-//            System.out.println("\nSorry. The filename is invalid.");
-//            return null;
-//            // TODO: Prompt user to enter resume and cover letter filename again. Code Smell issue?
-//        }
-//        BufferedReader br = new BufferedReader(new FileReader(file));
-//        String resume = "";
-//        String line = br.readLine();
-//        while (line != null) {
-//            resume += line + "\n";
-//            line = br.readLine();
-//        }
-//        return resume;
-//    }
-//
-//    private void displayLoginScreen(String userType) throws IOException {
-//    }
+////    private void displayLoginScreen(String userType) throws IOException {
+////    }
 //
 //    protected ArrayList<Posting> allPostings() {
 //        ArrayList<Posting> p = new ArrayList<>();

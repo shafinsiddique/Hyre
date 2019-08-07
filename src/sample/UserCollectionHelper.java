@@ -35,7 +35,7 @@ class UserCollectionHelper {
      *
      * @return ArrayList<Applicant>
      */
-    public ArrayList<Applicant> loadApplicants() throws IOException {
+    public ArrayList<Applicant> loadApplicants() {
         FindIterable<Document> documents = this.users.find();
 
         MongoCursor<Document> cursor = documents.iterator();
@@ -47,9 +47,13 @@ class UserCollectionHelper {
             Applicant newApplicant = new Applicant(d.getString("username"), d.getString("password"),
                     d.getString("resume"), d.getString("coverLetter"), d.getDate("dateCreated"));
             jobApplicants.add(newApplicant);
-            loadAppliedTo(newApplicant, (List<Document>) d.get("appliedTo"));
-            loadInterviews(newApplicant, (List<Document>) d.get("interviews"));
-            loadMessages(newApplicant, (List<String>) d.get("messages"));
+            try {
+                loadAppliedTo(newApplicant, (List<Document>) d.get("appliedTo"));
+                loadInterviews(newApplicant, (List<Document>) d.get("interviews"));
+                loadMessages(newApplicant, (List<String>) d.get("messages"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return jobApplicants;

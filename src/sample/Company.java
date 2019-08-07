@@ -126,7 +126,7 @@ class Company {
      *
      * @param c an Coordinator
      */
-    protected void addCoordinator(Coordinator c) throws IOException {
+    protected void addCoordinator(Coordinator c) {
         this.coordinators.add(c);
         String line = c.getUsername() + ", " + c.getPassword() + "\n";
 
@@ -140,7 +140,7 @@ class Company {
      *
      * @param i an Interviewer
      */
-    protected void addInterviewer(Interviewer i) throws IOException {
+    protected void addInterviewer(Interviewer i) {
         this.interviewers.add(i);
         String line = i.getUsername() + ", " + i.getPassword() + "\n";
     }
