@@ -25,7 +25,7 @@ import java.util.Scanner;
 
 
 public class Main extends Application {
-    static Stage window;
+    private static Stage window;
     static String usertype;
     private static Scene homeScene;
 
@@ -41,15 +41,18 @@ public class Main extends Application {
         Button applicant = new Button();
         applicant.setText("Applicant");
         applicant.setOnAction(e-> {
-            new ApplicantLoginPortal(connectDatabase(), "applicants","companies").activityTypePage("a");});
+            new ApplicantLoginPortal(connectDatabase(), "applicants",
+                    "companies", window).activityTypePage("a");});
         Button coordinator = new Button();
         coordinator.setText("Coordinator");
         coordinator.setOnAction(e -> {
-            new EmployeeLoginPortal(connectDatabase(), "applicants", "companies").activityTypePage("c");});
+            new EmployeeLoginPortal(connectDatabase(), "applicants",
+                    "companies", window).activityTypePage("c");});
         Button interviewer = new Button();
         interviewer.setText("Interviewer");
         interviewer.setOnAction(e -> {
-            new EmployeeLoginPortal(connectDatabase(), "applicants", "companies").activityTypePage("i");});
+            new EmployeeLoginPortal(connectDatabase(), "applicants",
+                    "companies", window).activityTypePage("i");});
         GridPane homePageLayout = new GridPane();
         homePageLayout.setPadding(new Insets(10,10,10,10));
         homePageLayout.setVgap(5);

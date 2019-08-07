@@ -12,7 +12,7 @@ import org.bson.Document;
 import java.util.ArrayList;
 
 public class ApplicantLoginPortal extends Portal {
-    private Stage stage;
+    private Stage window;
 
     /**
      * The MainPortal is a text-based system for use by an Applicants, a Coordinator or an Interviewer
@@ -21,9 +21,9 @@ public class ApplicantLoginPortal extends Portal {
      * @param applicantCollectionsName a String pointing to table in MongoDB database
      * @param companyCollectionsName   a String pointing to table in MongoDB database
      */
-    ApplicantLoginPortal(MongoDatabase db, String applicantCollectionsName, String companyCollectionsName) {
+    ApplicantLoginPortal(MongoDatabase db, String applicantCollectionsName, String companyCollectionsName, Stage window) {
         super(db, applicantCollectionsName, companyCollectionsName);
-        stage = new Stage();
+        window = window;
     }
 
     /**
@@ -92,16 +92,17 @@ public class ApplicantLoginPortal extends Portal {
 
             Applicant newApplicant = new Applicant(username, password, resume, coverLetter);
             registerApplicant(newApplicant);
+            ApplicantPortalInterface AP = new ApplicantPortalInterface(newApplicant, allPostings(), super.applicantsCollection);
+            ApplicantPortalGUI APGUI = new ApplicantPortalGUI(AP, this.window);
+            APGUI.run();
 
-            ApplicantPortal applicantPortal = new ApplicantPortal(newApplicant, allPostings(), super.applicantsCollection);
-            applicantPortal.displayApplicantHome();
         });
         Button back = new Button("Go Back");
         back.setOnAction(actionEvent -> activityTypePage(type));
         VBox vBox = new VBox(usernameBox, passwordBox, submit, back);
         Scene scene = new Scene(vBox);
-        stage.setScene(scene);
-        stage.show();
+        window.setScene(scene);
+        window.show();
 
     } //TODO: Have users type out their resume. as an option
 
@@ -118,8 +119,9 @@ public class ApplicantLoginPortal extends Portal {
             String password = passwordField.getText();
             Applicant a = this.findApplicant(username);
             if (!a.isEmpty() && a.getPassword().equals(password)) {
-                ApplicantPortal applicantPortal = new ApplicantPortal(a, allPostings(), super.applicantsCollection);
-                applicantPortal.displayApplicantHome();
+                ApplicantPortalInterface AP = new ApplicantPortalInterface(a, allPostings(), super.applicantsCollection);
+                ApplicantPortalGUI APGUI = new ApplicantPortalGUI(AP, this.window);
+                APGUI.run();
             } else {
                 System.out.println("Invalid Credentials.");
             }
@@ -128,8 +130,8 @@ public class ApplicantLoginPortal extends Portal {
         back.setOnAction(actionEvent -> this.activityTypePage(usertype));
         VBox vBox = new VBox(usernameBox, passwordBox, submit, back);
         Scene scene = new Scene(vBox);
-        stage.setScene(scene);
-        stage.show();
+        window.setScene(scene);
+        window.show();
 
     }
 }

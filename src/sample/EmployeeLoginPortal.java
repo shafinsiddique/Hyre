@@ -9,11 +9,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 class EmployeeLoginPortal extends Portal {
-    Stage stage;
+    Stage window;
 
-    EmployeeLoginPortal(MongoDatabase db, String applicantCollectionsName, String companyCollectionsName) {
+    EmployeeLoginPortal(MongoDatabase db, String applicantCollectionsName, String companyCollectionsName, Stage stage) {
         super(db, applicantCollectionsName, companyCollectionsName);
-        stage = new Stage();
+        window = stage;
     }
 
     private Coordinator findCoordinator(String username, String password) {
@@ -86,25 +86,27 @@ class EmployeeLoginPortal extends Portal {
                 Coordinator c = new Coordinator(username, password, companyFound);
                 companyFound.addCoordinator(c);
                 addCoordinatorToDatabase(c);
-                CoordinatorPortal coordinatorPortal = new CoordinatorPortal(c, super.applicantsCollection,
+                CoordinatorPortalInterface CP = new CoordinatorPortalInterface(c, super.applicantsCollection,
                         super.companiesCollection);
-                coordinatorPortal.displayPortal(c);
+                CoordinatorGUI CPGUI = new CoordinatorGUI(CP, this.window);
+                CPGUI.run();
             } else if (employeeType.equals("i")) {
                 Interviewer i = new Interviewer(username, password, companyFound);
                 companyFound.addInterviewer(i);
                 addInterviewerToDatabase(i);
-                InterviewerPortal ip = new InterviewerPortal(i, super.applicantsCollection);
-                ip.displayInterviewerPortal();
+//                InterviewerPortal ip = new InterviewerPortal(i, super.applicantsCollection);
+//                ip.displayInterviewerPortal();
             } else {
                 displayRegisterScreen(employeeType);
             }
         });
         Button back = new Button("Go Back");
         back.setOnAction(actionEvent -> super.activityTypePage(employeeType));
-        VBox vBox = new VBox(usernameBox, passwordBox, companyBox, submit, back);
+        VBox vBox = new VBox(20);
+        vBox.getChildren().addAll(usernameBox, passwordBox, companyBox, submit, back);
         Scene scene = new Scene(vBox);
-        stage.setScene(scene);
-        stage.show();
+        window.setScene(scene);
+        window.show();
     }
 
     public void displayLoginScreen(String userType) {
@@ -114,36 +116,37 @@ class EmployeeLoginPortal extends Portal {
         Label passwordLabel = new Label("Password:");
         TextField passwordField = new TextField();
         HBox passwordBox = new HBox();
-        Button submit = new Button();
+        Button submit = new Button("Submit");
         submit.setOnAction(actionEvent -> {
             String username = usernameField.getText();
             String password = passwordField.getText();
             if (userType.equalsIgnoreCase("c")) {
                 Coordinator c = findCoordinator(username, password);
                 if (!c.isEmpty()) {
-                    CoordinatorPortal coordinatorPortal = new CoordinatorPortal(c, super.applicantsCollection,
+                    CoordinatorPortalInterface CP = new CoordinatorPortalInterface(c, super.applicantsCollection,
                             super.companiesCollection);
-                    coordinatorPortal.displayPortal(c);
+                    CoordinatorGUI CPGUI = new CoordinatorGUI(CP, new Stage());
+                    CPGUI.run();
                 } else {
                     System.out.println("Invalid Credentials");
                 }
             } else if (userType.equalsIgnoreCase("i")){
                 Interviewer i = findInterviewer(username, password);
                 if (!i.isEmpty()) {
-                    InterviewerPortal ip = new InterviewerPortal(i, super.applicantsCollection);
-                    ip.displayInterviewerPortal();
+//                    InterviewerPortal ip = new InterviewerPortal(i, super.applicantsCollection);
+//                    ip.displayInterviewerPortal();
                 } else {
                     System.out.println("Invalid Credentials");
                 }
             }
             displayLoginScreen(userType);
         });
-        Button back = new Button();
+        Button back = new Button("Go Back");
         back.setOnAction(actionEvent -> super.activityTypePage(userType));
-        VBox vBox = new VBox(usernameBox, passwordBox, submit, back);
+        VBox vBox = new VBox(20);
+        vBox.getChildren().addAll(usernameBox, passwordBox, submit, back);
         Scene scene = new Scene(vBox);
-        stage.setScene(scene);
-        stage.show();
+        window.setScene(scene);
     }
 
 }

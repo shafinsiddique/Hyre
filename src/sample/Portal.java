@@ -80,9 +80,7 @@ public abstract class Portal {
         for (Company company : this.companies) {
             p.addAll(company.getPostings());
         }
-
         return p;
-
     }
 
     void activityTypePage(String usertype) {
