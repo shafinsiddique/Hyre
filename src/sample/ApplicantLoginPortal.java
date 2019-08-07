@@ -109,10 +109,13 @@ public class ApplicantLoginPortal extends Portal {
     public void displayLoginScreen(String usertype) {
         Label usernameLabel = new Label("Username:");
         TextField usernameField = new TextField();
+
         HBox usernameBox = new HBox(usernameLabel, usernameField);
         Label passwordLabel = new Label("Password:");
+
         TextField passwordField = new TextField();
         HBox passwordBox = new HBox(passwordLabel, passwordField);
+
         Button submit = new Button("Submit");
         submit.setOnAction(actionEvent -> {
             String username = usernameField.getText();
@@ -128,10 +131,13 @@ public class ApplicantLoginPortal extends Portal {
         });
         Button back = new Button("Go Back");
         back.setOnAction(actionEvent -> this.activityTypePage(usertype));
-        VBox vBox = new VBox(usernameBox, passwordBox, submit, back);
-        Scene scene = new Scene(vBox);
-        window.setScene(scene);
-        window.show();
+        VBox vBox = new VBox(5);
+        vBox.getChildren().addAll(usernameField, passwordField, submit, usernameBox, passwordBox, back);
+        Scene scene = new Scene(vBox, 550, 250);
+        Stage s = new Stage();
+        s.setTitle("VBox Layout Demo");
+        s.setScene(scene);
+        s.show();
 
     }
 }
