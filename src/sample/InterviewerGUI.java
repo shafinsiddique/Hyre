@@ -26,7 +26,7 @@ public class InterviewerGUI {
         layout.setAlignment(Pos.CENTER);
         Button viewToday = new Button();
         viewToday.setText("View all interviews you have for today");
-        viewToday.setOnAction(e -> getTodayInterviews());
+        viewToday.setOnAction(e -> interviewerInterface.viewInterviewsForToday());
 
         Button viewAll = new Button();
         viewAll.setText("View your entire interview schedule.");

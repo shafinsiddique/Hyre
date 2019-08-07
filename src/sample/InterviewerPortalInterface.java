@@ -15,7 +15,7 @@ public class InterviewerPortalInterface {
         this.users = usersCollection;
     }
 
-    private ArrayList<String> viewInterviewsForToday() {
+    ArrayList<String> viewInterviewsForToday() {
         int counter = 1;
         ArrayList<String> interviews = new ArrayList<String>();
         for (Interview i : interviewer.getTodayInterviews()) {
