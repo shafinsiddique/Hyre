@@ -108,6 +108,7 @@ public abstract class Portal {
         Scene pageScene = new Scene(pageLayout, 400, 150);
         Stage window = new Stage();
         window.setScene(pageScene);
+        window.show();
     }
 
     void displayLoginScreen(String userType) {}
