@@ -37,12 +37,12 @@ public class EmployeeLoginGUI {
         Interviewer i = portalInterface.findInterviewer(username, password);
 
         if (!i.isEmpty()) {
-//            InterviewerGUI newInterviewer = new InterviewerGUI(
-//                    portalInterface.interviewerLogin(i), window);
-//            newInterviewer.run();
-//        }
-//        else {
-//            AlertBox.display("Error","Invalid Credentials.");
+            InterviewerGUI newInterviewer = new InterviewerGUI(
+                    portalInterface.interviewerLogin(i), window);
+            newInterviewer.run();
+        }
+        else {
+            AlertBox.display("Error","Invalid Credentials.");
         }
     }
 
