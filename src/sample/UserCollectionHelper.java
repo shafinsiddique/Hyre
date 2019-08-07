@@ -162,6 +162,7 @@ class UserCollectionHelper {
                     .append("postingID", i.getPosting().getPostingID()).append("interviewerName",
                             i.getInterviewer().getUsername())
                     .append("date", i.getDate()).append("round", i.getRound()).append("roundReviews", roundReviews);
+
             users.updateOne(Filters.eq("username", jobApplicant.getUsername()),
                     Updates.addToSet("interviews", d));
 

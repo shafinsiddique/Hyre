@@ -11,12 +11,16 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-
+import java.util.Date;
 public class CoordinatorGUI {
     private CoordinatorPortalInterface coordinatorInterface;
     private Stage window;
     private Button backButton;
     private Scene homeScene;
+    private Posting chosenPosting;
+    private Applicant chosenApplicant;
+    private Interviewer chosenInterviewer;
+    private Date chosenDate;
 
 
     CoordinatorGUI(CoordinatorPortalInterface coordinatorInterface, Stage window) {
@@ -67,25 +71,109 @@ public class CoordinatorGUI {
 
     }
 
-    private void viewInterviewersScreen(int index) {
+    private void scheduleInterview(){
+        if (chosenApplicant.hasInterviewFor(chosenPosting)) {
+            AlertBox.display("Error","Applicant has already been chosen for an interview");
+        }
+
+        else{
+            Interview i =
+                    coordinatorInterface.scheduleInterview(chosenPosting, chosenApplicant,
+                            chosenInterviewer,
+                    chosenDate);
+
+            AlertBox.display("Success","Interview has been scheduled.\n\nInterview Info:" +
+                    "\n" + i.getAllInfo());
+        }
+    }
+
+    private void selectDateForm(){
+
+        GridPane createP = new GridPane();
+        createP.setPadding(new Insets(10, 10, 10, 10));
+        createP.setVgap(8);
+        createP.setHgap(10);
+        createP.setAlignment(Pos.CENTER);
+
+        Label idLabel = new Label("Enter Date (dd/MM/YYYY)");
+        GridPane.setConstraints(idLabel, 0, 0);
+
+        TextField dateD = new TextField();
+        GridPane.setConstraints(dateD, 0, 1);
+
+        Button submit = new Button();
+        submit.setText("Schedule Interview");
+        submit.setOnAction(e -> {
+            try {
+                chosenDate = Main.stringToDate(dateD.getText());
+                scheduleInterview();
+            } catch (ParseException p){
+                AlertBox.display("error","parse exvception");
+            }
+        });
+
+        GridPane.setConstraints(submit, 0, 2);
+        createP.getChildren().addAll(idLabel, dateD, submit);
+
+        Scene scene = new Scene(createP, 200,200);
+
+        window.setScene(scene);
+    }
+    private void viewInterviewersScreen() {
+        ObservableList<String>interviewers = convertArrayList(coordinatorInterface.viewAllInterviewers());
+
+        ListView<String> interviewersList = new ListView<>();
+        interviewersList.setItems(interviewers);
+
+        Button select = new Button();
+        select.setText("Select an interviewer");
+        select.setOnAction(e -> {
+            int index = interviewersList.getSelectionModel().getSelectedIndex();
+
+            if (index < 0) {
+                AlertBox.display("Error","Please make a selection");
+            }
+
+            else{
+                chosenInterviewer = coordinatorInterface.findInterviewer(index);
+                selectDateForm();
+            }
+
+        });
+
+        VBox layout = new VBox(10);
+        layout.setPadding(new Insets(10,10,10,10));
+        layout.getChildren().addAll(interviewersList, select, backButton);
+
+        Scene scene = new Scene(layout, 800,400);
+        window.setScene(scene);
+
 
     }
 
-    private void viewApplicantsScreen(int index) {
-        if (index < 0) {
-            AlertBox.display("Error", "You need to make atleast one selection.");
-        }
-        else {
-            ObservableList<String> applicants = convertArrayList(coordinatorInterface.viewAllApplicants(
+    private void viewApplicantsScreen() {
 
-                    coordinatorInterface.findPosting(index)));
+            ObservableList<String> applicants = convertArrayList(coordinatorInterface.viewAllApplicants(
+                    chosenPosting));
+
             ListView<String> applicantsList = new ListView();
             applicantsList.setItems(applicants);
 
             Button select = new Button();
             select.setText("Select a posting");
+            select.setOnAction(e -> {
+                int index = applicantsList.getSelectionModel().getSelectedIndex();
 
-            select.setOnAction(e -> viewInterviewersScreen(applicantsList.getSelectionModel().getSelectedIndex()));
+                if (index < 0){
+                    AlertBox.display("Error","You need to make a selection");
+                }
+
+                else {
+                    chosenApplicant = coordinatorInterface.findApplicant(chosenPosting, index);
+                    viewInterviewersScreen();
+                }
+            });
+
 
             VBox layout = new VBox(10);
             layout.setPadding(new Insets(10,10,10,10));
@@ -100,7 +188,6 @@ public class CoordinatorGUI {
 
 
 
-    }
     private void displayPostingsScreen() {
         ObservableList<String>postings = convertArrayList(coordinatorInterface.allPostingsString());
 
@@ -110,7 +197,18 @@ public class CoordinatorGUI {
         Button select = new Button();
         select.setText("Select a posting");
 
-        select.setOnAction(e -> viewApplicantsScreen(postingsList.getSelectionModel().getSelectedIndex()));
+        select.setOnAction(e ->
+        {
+            int chosenIndex = postingsList.getSelectionModel().getSelectedIndex();
+            if (chosenIndex < 0){
+                AlertBox.display("Error","You need to make a selection");
+            }
+
+            else{
+                chosenPosting = coordinatorInterface.findPosting(chosenIndex);
+                viewApplicantsScreen();
+            }
+        });
 
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(10,10,10,10));

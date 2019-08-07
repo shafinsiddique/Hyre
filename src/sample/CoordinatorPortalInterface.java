@@ -55,6 +55,10 @@ public class CoordinatorPortalInterface {
 
     }
 
+    Applicant findApplicant(Posting P, int i){
+        return P.getApplicantList().get(i);
+    }
+
     protected void createPosting(int postingID, String position, String description, String requirements,
                                       Date expiryDate, String items, String location) throws IOException {
 
@@ -84,20 +88,26 @@ public class CoordinatorPortalInterface {
         statusUpdater.addMessage(m);
     }
 
-    private void scheduleInterviewScreen(Posting p, Applicant a, Interviewer i, Date d) {
-        allPostingsString();
+    protected Interview scheduleInterview(Posting p, Applicant a, Interviewer i, Date d) {
         Interview newInterview = coordinator.scheduleInterview(p, a, i, d);
         addInterviewToDatabase(newInterview);
         sendMessageToApplicant(a, "You have been scheduled an interview with " +
                 newInterview.getPosting().getCompanyName()
                 + " for the position of " + newInterview.getPosting().getPosition());
+
+        return newInterview;
     }
 
-    private ArrayList<String> viewAllInterviewers(){
+    protected ArrayList<String> viewAllInterviewers(){
         ArrayList<String> interviewers = new ArrayList<String>();
         for (Interviewer i : company.getInterviewers()) {
             interviewers.add(i.getUsername());
         }
         return interviewers;
     }
+
+    protected Interviewer findInterviewer(int index){
+        return company.getInterviewers().get(index);
+    }
 }
+
