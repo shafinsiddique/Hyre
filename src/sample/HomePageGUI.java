@@ -48,11 +48,16 @@ public class HomePageGUI {
         register.setText("Register");
         register.setOnAction( e -> {registrationPage();});
 
+        Button mainMenuButton = new Button();
+        mainMenuButton.setText("Main Menu");
+        mainMenuButton.setOnAction(e -> {showHomePage();});
+
         GridPane pageLayout = new GridPane();
         pageLayout.setAlignment(Pos.CENTER);
         pageLayout.setHgap(5);
         pageLayout.add(login, 0,0);
         pageLayout.add(register, 1, 0);
+        pageLayout.add(mainMenuButton, 2, 0);
 
         Scene pageScene = new Scene(pageLayout, 400, 150);
         window.setScene(pageScene);
@@ -81,6 +86,7 @@ public class HomePageGUI {
         {   Portal.setUserType(Portal.getInterviewer());
             activityTypePage();
         });
+
 
         GridPane homePageLayout = new GridPane();
         homePageLayout.setPadding(new Insets(10,10,10,10));
