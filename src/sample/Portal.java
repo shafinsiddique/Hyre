@@ -2,11 +2,19 @@ package sample;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Portal {
+public abstract class Portal {
     ArrayList<Applicant> jobApplicantUsers; //Applicant
     ArrayList<Company> companies; // Applicant, Employee
     ArrayList<Referee> refereeUsers; // Applicant, Employee
@@ -27,7 +35,7 @@ public class Portal {
      * @param companyCollectionsName   a String pointing to table in MongoDB database
      */
 
-    Portal(MongoDatabase db, String applicantCollectionsName, String companyCollectionsName) throws IOException {
+    Portal(MongoDatabase db, String applicantCollectionsName, String companyCollectionsName) {
         this.database = db;
         this.applicantsCollection = database.getCollection(applicantCollectionsName);
         this.companiesCollection = database.getCollection(companyCollectionsName);
@@ -39,18 +47,12 @@ public class Portal {
         this.jobApplicantUsers = applicantsDatabaseHelper.loadApplicants();
     }
 
-    protected Applicant findApplicant(String username, String password) {
-        for (Applicant jobApplicantUser : jobApplicantUsers) {
-            if (jobApplicantUser.getUsername().equals(username)) {
-                if (jobApplicantUser.getPassword().equals(password)) {
-                    return jobApplicantUser;
-                }
-            }
-        }
-        return new Applicant();
-    }
-
-    protected Company findCompany(String companyName) {
+    /**
+     * Returns Company object given the the name of the company.
+     *
+     * @param companyName a String of the name of the company
+     */
+    Company findCompany(String companyName) {
         for (Company company : companies) {
             if (company.getName().equals(companyName)) {
                 return company;
@@ -59,8 +61,25 @@ public class Portal {
         return new Company();
     }
 
+//    protected ReferenceLetter findReferenceLetter(String applicant) {
+//        for (ReferenceLetter referenceLetter : referenceLetters) {
+//            if (referenceLetter.getApplicant().equals(applicant)) {
+//                return referenceLetter;
+//            }
+//        }
+//        return new ReferenceLetter();
+//    }
 
-    private ArrayList<Posting>getAllPostings() {
+    Applicant findApplicant(String username) {
+        for (Applicant applicant : jobApplicantUsers) {
+            if (applicant.getUsername().equals(username)) {
+                return applicant;
+            }
+        }
+        return new Applicant();
+    }
+
+    protected ArrayList<Posting> allPostings() {
         ArrayList<Posting> p = new ArrayList<>();
 
         for (Company company : this.companies) {
@@ -71,13 +90,32 @@ public class Portal {
 
     }
 
+    void activityTypePage(String usertype) {
+        Button login = new Button();
+        login.setText("Login");
+        login.setOnAction(e -> {displayLoginScreen(usertype);});
 
-    ApplicantPortalInterface login(Applicant a) {
-        return new ApplicantPortalInterface(a, getAllPostings(),
-                applicantsCollection);
+        Button register = new Button();
+        register.setText("Register");
+        register.setOnAction( e -> {displayRegisterScreen(usertype);});
+
+        Button mainMenu = new Button();
+        mainMenu.setText("Main Menu");
+        mainMenu.setOnAction(e -> {Main.showHomePage();});
+
+        GridPane pageLayout = new GridPane();
+        pageLayout.setAlignment(Pos.CENTER);
+        pageLayout.setHgap(5);
+        pageLayout.add(login, 0,0);
+        pageLayout.add(register, 1, 0);
+        pageLayout.add(mainMenu, 2, 0);
+
+        Scene pageScene = new Scene(pageLayout, 400, 150);
+        Stage window = new Stage();
+        window.setScene(pageScene);
     }
 
+    void displayLoginScreen(String userType) {}
 
-
-
+    void displayRegisterScreen(String userType) {}
 }
