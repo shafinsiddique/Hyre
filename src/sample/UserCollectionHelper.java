@@ -109,7 +109,8 @@ class UserCollectionHelper {
             Company c = this.portal.findCompany(d.getString("company"));
             Posting p = c.findPostingWithID(d.getInteger("postingID"));
             a.addPostingToAppliedList(p, d.getString("status"));
-            p.addApplicant(a); //Check this
+            p.addApplicant(a);
+
         }
     }
 

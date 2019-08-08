@@ -148,7 +148,7 @@ class Interviewer extends User {
     }
 
     protected ArrayList<String> getTodayInterviewsString(){
-        ArrayList<String> todayInterviews = new ArrayList<String>();
+        ArrayList<String> todayInterviews = new ArrayList<>();
         for(Interview i : getTodayInterviews()){
             todayInterviews.add(i.getAllInfo());
         }

@@ -1,6 +1,5 @@
 package sample;
 
-import com.sun.org.apache.xpath.internal.objects.XString;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -149,4 +148,6 @@ public class EmployeeLoginGUI {
         Scene loginScene = new Scene(loginPage, 300, 200);
         window.setScene(loginScene);
     }
+
+
 }

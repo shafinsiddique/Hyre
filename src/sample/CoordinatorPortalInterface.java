@@ -139,7 +139,15 @@ public class CoordinatorPortalInterface {
 
     }
 
-    protected void moveUpCandidate() {
+    protected void moveUpCandidate(Interview i, Date newDate, Interviewer newInterviewer) {
+        i.moveToNextRound(newDate, newInterviewer);
+        UserCollectionHelper uch = new UserCollectionHelper(i.getApplicant(), usersCollection);
+        uch.updateInterviewRoundReview(i);
+        sendMessageToApplicant(i.getApplicant(), "You have successfully moved on to the next round of " +
+                "interviews for " + i.getPosting().getPosition()
+                + " at " + i.getPosting().getCompanyName());
+        uch.updateApplicationStatus(i.getPosting(), i.getCurrentRoundType());
+
 
     }
 }
