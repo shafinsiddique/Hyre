@@ -277,7 +277,7 @@ public class CoordinatorGUI {
             applicantsList.setItems(applicants);
 
             Button select = new Button();
-            select.setText("Select a posting");
+            select.setText("Select an applicant");
             select.setOnAction(e -> {
                 int index = applicantsList.getSelectionModel().getSelectedIndex();
 

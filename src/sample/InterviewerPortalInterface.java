@@ -2,12 +2,13 @@ package sample;
 
 import com.mongodb.client.MongoCollection;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 public class InterviewerPortalInterface {
-    private final Interviewer interviewer;
+    protected final Interviewer interviewer;
     private final MongoCollection users;
 
     InterviewerPortalInterface(Interviewer i, MongoCollection usersCollection) {
@@ -30,7 +31,7 @@ public class InterviewerPortalInterface {
      *
      * @param i an Interview
      */
-    private void updateInterviewDatabaseWithReview(Interview i) {
+    protected void updateInterviewDatabaseWithReview(Interview i) {
         UserCollectionHelper newHelper = new UserCollectionHelper(i.getApplicant(), users);
 
         newHelper.updateInterviewRoundReview(i);
@@ -40,6 +41,14 @@ public class InterviewerPortalInterface {
         Interview i = interviewer.getTodayInterviews().get(selectInterview - 1);
         interviewer.enterReview(i, review);
         updateInterviewDatabaseWithReview(i);
+    }
+
+    protected Interview findTodayInterview(int index){
+        return interviewer.getTodayInterviews().get(index);
+    }
+
+    protected Interview findAllInterview(int index){
+        return interviewer.getAssignedInterviews().get(index);
     }
 
 }
@@ -73,11 +82,12 @@ class Interviewer extends User {
         return this.company;
     }
 
-    protected void viewScheduledInterviews() {
-        System.out.println("Here are your scheduled interviews");
+    protected ArrayList<String> viewScheduledInterviews() {
+        ArrayList<String> scheduledInterviews = new ArrayList<String>();
         for (int x = 0; x < getAssignedInterviews().size(); x++) {
-            System.out.println(getAssignedInterviews().get(x).getAllInfo());
+            scheduledInterviews.add(getAssignedInterviews().get(x).getAllInfo());
         }
+        return scheduledInterviews;
     }
 
     /**
@@ -85,7 +95,7 @@ class Interviewer extends User {
      *
      * @return ArrayList<Interview>
      */
-    private ArrayList<Interview> getAssignedInterviews() {
+    protected ArrayList<Interview> getAssignedInterviews() {
         ArrayList<Interview> scheduledInterviews = new ArrayList<>();
         for (Posting p : company.getPostings()) {
             for (Interview i : p.getInterviews()) {
@@ -96,6 +106,14 @@ class Interviewer extends User {
         }
 
         return scheduledInterviews;
+    }
+
+    protected ArrayList<String> getAssignedInterviewsString(){
+        ArrayList<String> assignedInterviews = new ArrayList<String>();
+        for(Interview i: getAssignedInterviews()){
+            assignedInterviews.add(i.getAllInfo());
+        }
+        return assignedInterviews;
     }
 
     /**
@@ -127,6 +145,14 @@ class Interviewer extends User {
             }
         }
         return today;
+    }
+
+    protected ArrayList<String> getTodayInterviewsString(){
+        ArrayList<String> todayInterviews = new ArrayList<String>();
+        for(Interview i : getTodayInterviews()){
+            todayInterviews.add(i.getAllInfo());
+        }
+        return todayInterviews;
     }
 
     /**

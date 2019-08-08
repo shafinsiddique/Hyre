@@ -114,7 +114,9 @@ public class Portal {
         return new Interviewer();
     }
 
-
+    protected InterviewerPortalInterface interviewerLogin(Interviewer i){
+        return new InterviewerPortalInterface(i, applicantsCollection);
+    }
 
     protected CoordinatorPortalInterface coordinatorLogin(Coordinator c) {
         return new CoordinatorPortalInterface(c,applicantsCollection,companiesCollection);
