@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+/**
+ * Posting Class.
+ */
 class Referee extends User {
     private Date dateCreated;
     private ArrayList<ReferenceLetter> referenceLetters = new ArrayList<>();

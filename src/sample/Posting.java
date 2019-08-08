@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
+/**
+ * Posting Class.
+ *
+ */
 public class Posting {
     private ArrayList<Applicant> jobApplicantList = new ArrayList<>();
     private ArrayList<Interview> interviewList = new ArrayList<>();
