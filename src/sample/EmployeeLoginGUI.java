@@ -1,5 +1,6 @@
 package sample;
 
+import com.sun.org.apache.xpath.internal.objects.XString;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -44,6 +45,70 @@ public class EmployeeLoginGUI {
         else {
             AlertBox.display("Error","Invalid Credentials.");
         }
+    }
+
+    public void registerEmployee(String username, String password, String companyName){
+        Company companyFound = portalInterface.findCompany(companyName);
+        if (companyFound.isEmpty() && employeeType.equals(portalInterface.getCoordinator())) {
+            companyFound = new Company(companyName);
+            Coordinator c = new Coordinator(username, password, companyFound);
+            portalInterface.registerCoordinator(c, companyFound);
+        } else if (companyFound.isEmpty() && employeeType.equals(portalInterface.getInterviewer())) {
+            AlertBox.display("Error", "This company does not exist.");
+            displayRegisterScreen();
+        }
+        if (employeeType.equals(portalInterface.getCoordinator())) {
+            Coordinator c = new Coordinator(username, password, companyFound);
+            CoordinatorGUI newCoord = new CoordinatorGUI(
+                    portalInterface.registerCoordinator(c, companyFound), window);
+            newCoord.run();
+        } else if (employeeType.equals(portalInterface.getInterviewer())) {
+            Interviewer i = new Interviewer(username, password, companyFound);
+            InterviewerGUI newInterviewer = new InterviewerGUI(
+                    portalInterface.registerInterviewer(i, companyFound), window);
+            newInterviewer.run();
+        } else {
+            AlertBox.display("Error", "This company does not exist.");
+            displayRegisterScreen();
+        }
+    }
+
+    public void displayRegisterScreen(){
+        GridPane registerPage = new GridPane();
+        registerPage.setPadding(new Insets(10,10,10,10));
+        registerPage.setVgap(8);
+        registerPage.setHgap(10);
+        registerPage.setAlignment(Pos.CENTER);
+
+        Label nameLabel = new Label("Username");
+        GridPane.setConstraints(nameLabel, 0, 0);
+
+        TextField username = new TextField();
+        GridPane.setConstraints(username, 1, 0);
+
+        Label passLabel = new Label("Password");
+        GridPane.setConstraints(passLabel, 0, 1);
+
+        TextField password = new TextField();
+        GridPane.setConstraints(password, 1, 1);
+
+        Label companyLabel = new Label("Company");
+        GridPane.setConstraints(passLabel, 0, 2);
+
+        TextField company = new TextField();
+        GridPane.setConstraints(company, 1, 1);
+
+        Button registerButton =  new Button();
+        registerButton.setText("Register");
+        GridPane.setConstraints(registerButton, 1, 4);
+        registerButton.setOnAction(e->{
+            if(username.getText().isEmpty() || password.getText().isEmpty() || company.getText().isEmpty()){
+                AlertBox.display("error", "Please enter valid credentials!");
+                displayRegisterScreen();
+            }else{
+                registerEmployee(username.getText(), password.getText(), company.getText());
+            }
+        });
     }
 
     public void displayLoginScreen(){

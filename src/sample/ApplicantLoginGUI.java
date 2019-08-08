@@ -55,7 +55,14 @@ public class ApplicantLoginGUI {
         loginbutton.setText("Login");
         GridPane.setConstraints(loginbutton, 1, 2);
 
-        loginbutton.setOnAction(e -> validateApplicant(username.getText(),password.getText()));
+        loginbutton.setOnAction(e -> {
+            if(username.getText().isEmpty() || password.getText().isEmpty()){
+                AlertBox.display("Error", "Please enter valid credentials");
+                displayLoginScreen();
+            }else {
+                validateApplicant(username.getText(), password.getText());
+            } }
+        );
         loginPage.getChildren().addAll(nameLabel, username, passLabel, password, loginbutton);
 
         Scene loginScene = new Scene(loginPage, 300, 200);
@@ -104,8 +111,15 @@ public class ApplicantLoginGUI {
         GridPane.setConstraints(registerButton, 1, 4);
 
         registerButton.setOnAction(e ->
-                registerApplicant(username.getText(), password.getText(),
-                        resume.getText(), coverletter.getText()));
+                {
+                if(username.getText().isEmpty() || password.getText().isEmpty()){
+                    AlertBox.display("Error", "Please enter valid credentials");
+                    displayRegisterScreen();
+                }else{
+                    registerApplicant(username.getText(), password.getText(),
+                            resume.getText(), coverletter.getText());
+                } }
+        );
 
         registerPage.getChildren().addAll(nameLabel, username, passLabel, password, resumeLabel,
                 resume, coverletter,

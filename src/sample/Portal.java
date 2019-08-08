@@ -96,6 +96,21 @@ public class Portal {
         applicantsDatabaseHelper.writeDocument(document);
     }
 
+    protected CoordinatorPortalInterface registerCoordinator(Coordinator coord, Company company){
+        if(!companies.contains(company)){
+            companies.add(company);
+            companyDatabaseHelper.addNewCompany(company);
+        }
+        companyDatabaseHelper.addCoordinator(coord);
+        return new CoordinatorPortalInterface(coord,applicantsCollection,companiesCollection);
+    }
+
+    protected InterviewerPortalInterface registerInterviewer(Interviewer interviewer, Company company){
+        companyDatabaseHelper.addInterviewer(interviewer);
+        company.addInterviewer(interviewer);
+        return new InterviewerPortalInterface(interviewer, applicantsCollection);
+    }
+
     protected Coordinator findCoordinator(String username, String password) {
         for (Company company : companies) {
             if (!company.findCoordinator(username, password).isEmpty()) {
