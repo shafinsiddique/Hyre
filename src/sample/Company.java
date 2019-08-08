@@ -7,7 +7,7 @@ class Company {
     private String name;
     private ArrayList<Posting> postings;
     private ArrayList<Interviewer> interviewers;
-    private ArrayList<Coordinator> coordinators;
+    private ArrayList<Coordinator> coordinators = new ArrayList<>();
 
     protected Company(String name) {
 
@@ -17,6 +17,11 @@ class Company {
     }
 
     protected Company() {
+
+    }
+
+    protected ArrayList<Coordinator> getCoordinators() {
+        return this.coordinators;
     }
 
     protected void setPostings(ArrayList<Posting> postings) {
@@ -130,10 +135,6 @@ class Company {
     protected void addCoordinator(Coordinator c) {
         this.coordinators.add(c);
         String line = c.getUsername() + ", " + c.getPassword() + "\n";
-
-
-        System.out.println(c.getUsername() + " has been successfully registered as a coordinator for " +
-                this.getName());
     }
 
     /**

@@ -46,30 +46,34 @@ public class EmployeeLoginGUI {
         }
     }
 
-    public void registerEmployee(String username, String password, String companyName){
-        Company companyFound = portalInterface.findCompany(companyName);
-        if (companyFound.isEmpty() && employeeType.equals(portalInterface.getCoordinator())) {
-            companyFound = new Company(companyName);
-            Coordinator c = new Coordinator(username, password, companyFound);
-            portalInterface.registerCoordinator(c, companyFound);
-        } else if (companyFound.isEmpty() && employeeType.equals(portalInterface.getInterviewer())) {
-            AlertBox.display("Error", "This company does not exist.");
-            displayRegisterScreen();
-        }
-        if (employeeType.equals(portalInterface.getCoordinator())) {
-            Coordinator c = new Coordinator(username, password, companyFound);
-            CoordinatorGUI newCoord = new CoordinatorGUI(
-                    portalInterface.registerCoordinator(c, companyFound), window);
-            newCoord.run();
-        } else if (employeeType.equals(portalInterface.getInterviewer())) {
-            Interviewer i = new Interviewer(username, password, companyFound);
-            InterviewerGUI newInterviewer = new InterviewerGUI(
-                    portalInterface.registerInterviewer(i, companyFound), window);
-            newInterviewer.run();
-        } else {
-            AlertBox.display("Error", "This company does not exist.");
-            displayRegisterScreen();
-        }
+    public void registerEmployee(String username, String password, String companyName) {
+        Company company = portalInterface.findCompany(companyName);
+
+            if (employeeType.equals(Portal.getInterviewer())) {
+                if (!company.isEmpty()) {
+                    ;
+                    InterviewerGUI intGui = new InterviewerGUI(
+                            portalInterface.registerInterviewer(username, password, company),
+                            window);
+
+                    intGui.run();
+                }
+
+            }
+
+        else {
+            if (company.isEmpty()) {
+                Company c = new Company(companyName);
+                CoordinatorGUI cgui = new CoordinatorGUI(
+                        portalInterface.registerCoordinator(username, password, c), window);
+
+                cgui.run();
+
+
+
+            }
+
+            }
     }
 
     public void displayRegisterScreen(){
@@ -92,22 +96,24 @@ public class EmployeeLoginGUI {
         GridPane.setConstraints(password, 1, 1);
 
         Label companyLabel = new Label("Company");
-        GridPane.setConstraints(passLabel, 0, 2);
+        GridPane.setConstraints(companyLabel, 0, 2);
 
         TextField company = new TextField();
-        GridPane.setConstraints(company, 1, 1);
+        GridPane.setConstraints(company, 1, 2);
 
         Button registerButton =  new Button();
         registerButton.setText("Register");
-        GridPane.setConstraints(registerButton, 1, 4);
+        GridPane.setConstraints(registerButton, 0, 3);
         registerButton.setOnAction(e->{
-            if(username.getText().isEmpty() || password.getText().isEmpty() || company.getText().isEmpty()){
-                AlertBox.display("error", "Please enter valid credentials!");
-                displayRegisterScreen();
-            }else{
-                registerEmployee(username.getText(), password.getText(), company.getText());
-            }
+            registerEmployee(username.getText(), password.getText(), company.getText());
         });
+
+        registerPage.getChildren().addAll(nameLabel, username, passLabel, password, companyLabel, company,
+                registerButton);
+
+        Scene scene = new Scene(registerPage, 800, 600);
+        window.setScene(scene);
+
     }
 
     public void displayLoginScreen(){
