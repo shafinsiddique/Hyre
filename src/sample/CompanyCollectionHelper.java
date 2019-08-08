@@ -122,6 +122,7 @@ class CompanyCollectionHelper {
         Document d = new Document("name", c.getName()).append("postings", new ArrayList<>())
                 .append("interviewers", new ArrayList<>()).append("coordinators", new ArrayList<>());
         this.companies.insertOne(d);
+        addCoordinator(c.getCoordinators().get(0));
 
     }
 }

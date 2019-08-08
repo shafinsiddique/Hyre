@@ -6,7 +6,7 @@ import java.util.ArrayList;
 class Company {
     private String name;
     private ArrayList<Posting> postings;
-    private ArrayList<Interviewer> interviewers = new ArrayList<>();
+    private ArrayList<Interviewer> interviewers;
     private ArrayList<Coordinator> coordinators = new ArrayList<>();
 
     protected Company(String name) {
@@ -18,6 +18,10 @@ class Company {
 
     protected Company() {
 
+    }
+
+    protected ArrayList<Coordinator> getCoordinators() {
+        return this.coordinators;
     }
 
     protected void setPostings(ArrayList<Posting> postings) {
