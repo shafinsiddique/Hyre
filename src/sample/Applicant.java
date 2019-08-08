@@ -144,12 +144,22 @@ public class Applicant extends User {
         return false;
     }
 
+    /**
+     * A method for an Applicant to apply to a posting
+     *
+     * @param p
+     */
     protected void apply(Posting p) {
         this.appliedTo.put(p, "Pending");
         p.addApplicant(this);
 
     }
 
+    /**
+     * A method to determine whether an Applicant has an interview for a posting
+     *
+     * @param p
+     */
     protected boolean hasInterviewFor(Posting P) {
         for (Posting post : this.getInterviews().keySet()) {
             if (post.getPostingID() == P.getPostingID() && this.getInterviews().get(post).getInterviewer() != null) {
@@ -159,6 +169,11 @@ public class Applicant extends User {
         return false;
     }
 
+    /**
+     * A method for an Applicant to remove an application to a posting
+     *
+     * @param p
+     */
     protected void removeApplication(Posting p) {
         p.removeApplicant(this);
         this.appliedTo.put(p, "Abandoned");
@@ -173,6 +188,9 @@ public class Applicant extends User {
         appliedTo.put(p, status);
     }
 
+    /**
+     * A method for an Applicant to view offers
+     */
     protected void viewOffers() {
         for (Posting p : this.appliedTo.keySet()) {
             if (this.appliedTo.get(p).equals("Offer")) {
@@ -182,10 +200,15 @@ public class Applicant extends User {
     }
 
     private void hire(Posting p) {
-
+        //TODO: need this method?
 
     }
 
+    /**
+     * A method for an Applicant to withdraw an application to a posting
+     *
+     * @param p
+     */
     protected void withdraw(Posting p) {
         this.appliedTo.remove(p);
         this.interviews.remove(p);
