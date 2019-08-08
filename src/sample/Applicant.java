@@ -166,7 +166,7 @@ public class Applicant extends User {
     }
 
     private void hire(Posting p) {
-        // bad design.
+
 
     }
 

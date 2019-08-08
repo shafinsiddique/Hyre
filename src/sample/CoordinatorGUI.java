@@ -42,6 +42,121 @@ public class CoordinatorGUI {
 
     }
 
+
+    private void hiringScene(Interview i){
+        Label label = new Label("This candidate has completed all stages of the interview. Would you like to hire" +
+                "the candidate for this position?");
+
+        ToggleGroup group = new ToggleGroup();
+        RadioButton rb1 = new RadioButton("Yes");
+        rb1.setToggleGroup(group);
+        rb1.setSelected(true);
+
+        RadioButton rb2 = new RadioButton("No");
+        rb2.setToggleGroup(group);
+
+
+        Button submit = new Button();
+        submit.setText("Submit");
+
+        submit.setOnAction(e -> {
+            if (rb1.isSelected()) {
+                coordinatorInterface.hire(i);
+                AlertBox.display("Hired.",i.getApplicant() + " has been offered the position of " +
+                        i.getPosting().getPosition() + ".");
+
+            }
+
+            else{
+                coordinatorInterface.reject(i);
+                AlertBox.display("Rejected",i.getApplicant() + " has been rejected for the position" +
+                        "of " + i.getPosting().getPosition());
+            }
+        });
+
+        VBox layout = new VBox(10);
+        layout.setAlignment(Pos.CENTER);
+        layout.getChildren().addAll(label,rb1, rb2, submit);
+        Scene scene = new Scene(layout, 200, 200);
+        window.setScene(scene);
+
+    }
+    private void reviewInterviewsScreen(){
+        ObservableList<String>interviewers = convertArrayList(coordinatorInterface.getInProcessInterviews());
+
+        ListView<String> interviewersList = new ListView<>();
+        interviewersList.setItems(interviewers);
+
+        Button select = new Button();
+        select.setText("Select an Interview");
+
+
+        select.setOnAction(e -> {
+            int i = interviewersList.getSelectionModel().getSelectedIndex();
+            if (i < 0){
+                AlertBox.display("Error","You need to make a selection");
+            }
+
+            else {
+                Interview interview = coordinatorInterface.findInProcessInterview(i);
+
+                if (interview.completedFinalRound()){
+                    hiringScene(interview);
+                }
+
+                else {
+                    moveUpCandidateScene(interview);
+                }
+
+            }
+
+        });
+
+        VBox layout = new VBox(10);
+        layout.setPadding(new Insets(10,10,10,10));
+        layout.getChildren().addAll(interviewersList, select, backButton);
+
+        Scene scene = new Scene(layout, 800,400);
+        window.setScene(scene);
+
+    }
+
+    private void moveUpCandidateScene(Interview i) {
+        Label label = new Label("Would you like to move this candidate to the next round?");
+
+        ToggleGroup group = new ToggleGroup();
+        RadioButton rb1 = new RadioButton("Yes");
+        rb1.setToggleGroup(group);
+        rb1.setSelected(true);
+
+        RadioButton rb2 = new RadioButton("No");
+        rb2.setToggleGroup(group);
+
+
+        Button submit = new Button();
+        submit.setText("Submit");
+
+        submit.setOnAction(e -> {
+            if (rb1.isSelected()) {
+                chosenApplicant = i.getApplicant();
+                chosenPosting = i.getPosting();
+                viewInterviewersScreen();
+            }
+
+            else{
+                coordinatorInterface.reject(i);
+                AlertBox.display("Rejected",i.getApplicant() + " has been rejected for the position" +
+                        "of " + i.getPosting().getPosition());
+            }
+        });
+
+        VBox layout = new VBox(10);
+        layout.setAlignment(Pos.CENTER);
+        layout.getChildren().addAll(label,rb1, rb2, submit);
+        Scene scene = new Scene(layout, 200, 200);
+        window.setScene(scene);
+
+    }
     private void displayCoordinatorHome() {
         VBox layout = new VBox(10);
         layout.setAlignment(Pos.CENTER);
@@ -51,6 +166,9 @@ public class CoordinatorGUI {
 
         Button interviews = new Button();
         interviews.setText("Review Interviews that have taken place");
+        interviews.setOnAction(e -> {
+            reviewInterviewsScreen();
+        });
 
         Button createPosting = new Button();
         createPosting.setText("Add Posting");
@@ -147,7 +265,6 @@ public class CoordinatorGUI {
 
         Scene scene = new Scene(layout, 800,400);
         window.setScene(scene);
-
 
     }
 

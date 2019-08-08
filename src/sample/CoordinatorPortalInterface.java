@@ -19,7 +19,19 @@ public class CoordinatorPortalInterface {
         this.usersCollection = userCollection;
         this.companiesCollection = companyCollection;
     }
+    protected ArrayList<String>getInProcessInterviews(){
+        ArrayList<String>interviews = new ArrayList<>();
 
+        for (Interview i: company.getAllInProcessInterviews()){
+            interviews.add(i.getAllInfo());
+        }
+
+        return interviews;
+    }
+
+    protected Interview findInProcessInterview(int i){
+        return company.getAllInProcessInterviews().get(i);
+    }
     private boolean checkValidPostingsID(int id) {
         for (Posting p : company.getPostings()) {
             if (p.getPostingID() == id) {
@@ -109,5 +121,27 @@ public class CoordinatorPortalInterface {
     protected Interviewer findInterviewer(int index){
         return company.getInterviewers().get(index);
     }
+
+    protected void hire(Interview i) {
+        UserCollectionHelper statusUpdater = new UserCollectionHelper(i.getApplicant(), usersCollection);
+        coordinator.offerJob(i);
+        statusUpdater.updateApplicationStatus(i.getPosting(), "Offer");
+        sendMessageToApplicant(i.getApplicant(), "Congratulations! You have been offered the position of " +
+                i.getPosting().getPosition() + " at " + i.getPosting().getCompanyName());
+    }
+
+    protected void reject(Interview i) {coordinator.rejectApplicant(i);
+        UserCollectionHelper statusUpdater = new UserCollectionHelper(i.getApplicant(), usersCollection);
+        statusUpdater.updateApplicationStatus(i.getPosting(), "Rejected");
+        sendMessageToApplicant(i.getApplicant(), "You have been rejected for the position of " +
+                i.getPosting().getPosition() +
+                " at " + i.getPosting().getCompanyName());
+
+    }
+
+    protected void moveUpCandidate() {
+
+    }
 }
+
 

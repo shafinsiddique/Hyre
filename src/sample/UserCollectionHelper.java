@@ -150,8 +150,10 @@ class UserCollectionHelper {
                         .append("postingID", i.getPosting().getPostingID()).append("interviewerName", null)
                         .append("date", Main.stringToDate("09/10/1999")).append("round",
                                 i.getRound()).append("roundReviews", roundReviews);
+
                 users.updateOne(Filters.eq("username", jobApplicant.getUsername()),
                         Updates.addToSet("interviews", d));
+
             } catch (ParseException e) {
                 System.out.println("Please enter a valid date.");
             }
@@ -183,7 +185,7 @@ class UserCollectionHelper {
     }
 
     private void updatePostingStatus(Posting p, String status) {
-        Document d = new Document().append("company", p.getCompanyName()).append("postingID",
+        Document d = new Document().append("name", p.getCompanyName()).append("postingID",
                 p.getPostingID()).append("status", status);
 
         users.updateOne(Filters.eq("username", jobApplicant.getUsername()),
