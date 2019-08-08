@@ -125,15 +125,15 @@ class UserCollectionHelper {
         users.updateOne(Filters.eq("username", jobApplicant.getUsername()), Updates.addToSet("appliedTo", d));
     }
 
-    public void withdrawApplication(Posting p) {
-        Document filter = new Document("username", this.jobApplicant.getUsername());
-        Document update = new Document("$pull", new Document("appliedTo", new Document("postingID", p.getPostingID())));
-        Document removeInterview = new Document("$pull", new Document("interviews",
-                new Document("postingID", p.getPostingID())));
-        users.updateOne(filter, update);
-        users.updateOne(filter, removeInterview);
-
-    }
+//    public void withdrawApplication(Posting p) {
+//        Document filter = new Document("username", this.jobApplicant.getUsername());
+//        Document update = new Document("$pull", new Document("appliedTo", new Document("postingID", p.getPostingID())));
+//        Document removeInterview = new Document("$pull", new Document("interviews",
+//                new Document("postingID", p.getPostingID())));
+//        users.updateOne(filter, update);
+//        users.updateOne(filter, removeInterview);
+//
+//    }
 
     public void addInterview(Interview i) {
         Document roundReviews = new Document();
