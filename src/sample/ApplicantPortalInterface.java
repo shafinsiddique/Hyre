@@ -42,6 +42,8 @@ public class ApplicantPortalInterface {
 
 
 
+
+
     ArrayList<String> getApplicationsHistory() {
         ArrayList<String>strings = new ArrayList<>();
 
@@ -79,6 +81,7 @@ public class ApplicantPortalInterface {
 
     void withdraw(Posting p) {
         this.jobApplicant.withdraw(p);
+        this.allPostings.remove(p);
         this.dbUpdater.withdrawApplication(p);
 
     }

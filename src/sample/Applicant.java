@@ -143,7 +143,7 @@ public class Applicant extends User {
         return false;
     }
 
-    protected void removeApplication(Posting p) {
+    protected void withdraw(Posting p) {
         p.removeApplicant(this);
         this.appliedTo.put(p, "Abandoned");
         this.interviews.remove(p);
@@ -167,12 +167,6 @@ public class Applicant extends User {
 
     private void hire(Posting p) {
 
-
-    }
-
-    protected void withdraw(Posting p) {
-        this.appliedTo.remove(p);
-        this.interviews.remove(p);
     }
 
     protected void setResume(String resume) {
