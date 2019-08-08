@@ -251,7 +251,7 @@ public class CoordinatorGUI {
         });
 
         GridPane.setConstraints(submit, 0, 2);
-        GridPane.setConstraints(backButton, 0,2);
+        GridPane.setConstraints(backButton, 0,3);
         createP.getChildren().addAll(idLabel, dateD, submit, backButton);
 
         Scene scene = new Scene(createP, 200,200);
