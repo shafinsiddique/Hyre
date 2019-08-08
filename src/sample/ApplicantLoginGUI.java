@@ -18,7 +18,13 @@ public class ApplicantLoginGUI {
         this.window = window;
     }
 
-
+    /**
+     * Validates an Applicant's username and password.
+     *
+     * @param username the Applicant username to be validated
+     * @param password the Applicant password
+     * @see Applicant
+     */
     public void validateApplicant(String username, String password) {
         Applicant a = portalInterface.findApplicant(username, password);
         if (!a.isEmpty()) {
