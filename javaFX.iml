@@ -10,6 +10,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="javafx-swt" level="application" />
-    <orderEntry type="library" name="mongo-java-driver-3.11.0-beta4" level="project" />
+    <orderEntry type="library" name="mongo-java-driver-3.11.0-beta4" level="application" />
   </component>
 </module>

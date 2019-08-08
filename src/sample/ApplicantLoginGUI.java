@@ -91,7 +91,7 @@ public class ApplicantLoginGUI {
         TextArea resume = new TextArea();
         GridPane.setConstraints(resume, 1, 2);
 
-        Label coverLetterlabel = new Label("Password");
+        Label coverLetterlabel = new Label("Cover Letter");
         GridPane.setConstraints(coverLetterlabel, 0, 3);
 
 
