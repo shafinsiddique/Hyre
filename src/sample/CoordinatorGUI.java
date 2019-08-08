@@ -81,7 +81,7 @@ public class CoordinatorGUI {
         VBox layout = new VBox(10);
         layout.setAlignment(Pos.CENTER);
         layout.getChildren().addAll(label,rb1, rb2, submit, backButton);
-        Scene scene = new Scene(layout, 200, 200);
+        Scene scene = new Scene(layout, 400, 200);
         window.setScene(scene);
 
     }
@@ -159,7 +159,7 @@ public class CoordinatorGUI {
         VBox layout = new VBox(10);
         layout.setAlignment(Pos.CENTER);
         layout.getChildren().addAll(label,rb1, rb2, submit, backButton);
-        Scene scene = new Scene(layout, 200, 200);
+        Scene scene = new Scene(layout, 400, 200);
         window.setScene(scene);
 
     }
@@ -251,6 +251,7 @@ public class CoordinatorGUI {
         });
 
         GridPane.setConstraints(submit, 0, 2);
+        GridPane.setConstraints(backButton, 0,2);
         createP.getChildren().addAll(idLabel, dateD, submit, backButton);
 
         Scene scene = new Scene(createP, 200,200);
