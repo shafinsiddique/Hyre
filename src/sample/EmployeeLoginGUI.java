@@ -113,8 +113,12 @@ public class EmployeeLoginGUI {
             registerEmployee(username.getText(), password.getText(), company.getText());
         });
 
+        Button back = new Button("Go Back");
+        GridPane.setConstraints(back, 1, 3);
+        back.setOnAction(e -> new HomePageGUI(this.portalInterface, this.window).showHomePage());
+
         registerPage.getChildren().addAll(nameLabel, username, passLabel, password, companyLabel, company,
-                registerButton);
+                registerButton, back);
 
         Scene scene = new Scene(registerPage, 800, 600);
         window.setScene(scene);
@@ -154,7 +158,11 @@ public class EmployeeLoginGUI {
             loginbutton.setOnAction(e -> loginInterviewer(username.getText(), password.getText()));
         }
 
-        loginPage.getChildren().addAll(nameLabel, username, passLabel, password, loginbutton);
+        Button back = new Button("Go Back");
+        GridPane.setConstraints(back, 1, 3);
+        back.setOnAction(e -> new HomePageGUI(this.portalInterface, this.window).showHomePage());
+
+        loginPage.getChildren().addAll(nameLabel, username, passLabel, password, loginbutton, back);
 
         Scene loginScene = new Scene(loginPage, 300, 200);
         window.setScene(loginScene);
