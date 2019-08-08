@@ -100,7 +100,7 @@ public class ApplicantPortalInterface {
     void withdraw(Posting p) {
         this.jobApplicant.withdraw(p);
         this.allPostings.remove(p);
-        this.dbUpdater.withdrawApplication(p);
+        this.dbUpdater.updateApplicationStatus(p, "Withdrawn");
 
     }
 
