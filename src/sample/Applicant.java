@@ -93,6 +93,11 @@ public class Applicant extends User {
         return this.dateCreated;
     }
 
+    /**
+     * A method to display Applicant's username, resume and cover letter
+     *
+     * @return String (concatenated) of Applicant info
+     */
     protected String getAllInfo() {
         return "Applicant Name: " + this.getUsername() + "\n" +
                 "Resume: " + resume + "\n" +
@@ -109,7 +114,12 @@ public class Applicant extends User {
         appliedTo.put(p, status);
     }
 
-
+    /**
+     * A method to for an Applicant to an application by postingID
+     *
+     * @param postingID
+     * @return Posting
+     */
     protected Posting findApplication(int postingID) {
         for (Posting p : this.appliedTo.keySet()) {
             if (p.getPostingID() == postingID) {
@@ -119,6 +129,12 @@ public class Applicant extends User {
         return new Posting();
     }
 
+    /**
+     * A method to determine whether an Applicant has applied to a posting
+     *
+     * @param p
+     * @return boolean
+     */
     protected boolean alreadyAppliedFor(Posting p) {
         for (Posting post : this.appliedTo.keySet()) {
             if (post.getPostingID() == p.getPostingID()) {
@@ -136,7 +152,7 @@ public class Applicant extends User {
 
     protected boolean hasInterviewFor(Posting P) {
         for (Posting post : this.getInterviews().keySet()) {
-            if (post.getPostingID() == P.getPostingID() && this.getInterviews().get(post).getInterviewer()!=null) {
+            if (post.getPostingID() == P.getPostingID() && this.getInterviews().get(post).getInterviewer() != null) {
                 return true;
             }
         }
