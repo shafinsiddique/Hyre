@@ -33,6 +33,10 @@ class Interview {
         this.roundReviews = roundReviews;
     }
 
+    protected void moveToNextRound() {
+        this.currentRound += 1;
+    }
+
     protected HashMap<String, String> getRoundReviews() {
         return roundReviews;
     }
@@ -93,7 +97,7 @@ class Interview {
         interviewer = newInterviewer;
         jobApplicant.addMessage("You have successfully qualified for the next round of interviews for "
                 + posting.getPosition() + " job at " + posting.getCompanyName() + ".");
-        this.round += 1;
+        moveToNextRound();
     }
 
     /**

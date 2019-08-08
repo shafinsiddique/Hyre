@@ -29,8 +29,8 @@ class Coordinator extends User {
      * @param i an Interview
      */
     protected void offerJob(Interview i) {
+        i.moveToNextRound();
         Applicant a = i.getApplicant();
-
         i.getPosting().getInterviews().remove(i);
 
         i.getPosting().getApplicantList().remove(a);

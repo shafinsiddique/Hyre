@@ -1,8 +1,6 @@
 package sample;
 
 import com.mongodb.client.MongoCollection;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 

@@ -11,7 +11,6 @@ import java.util.ArrayList;
 public class Portal {
     private ArrayList<Applicant> jobApplicantUsers; //Applicant
     private ArrayList<Company> companies; // Applicant, Employee
-    private ArrayList<Referee> refereeUsers; // Applicant, Employee
 
     private MongoDatabase database; // Applicant, Employee
     private MongoCollection applicantsCollection; // Applicant

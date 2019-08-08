@@ -12,7 +12,6 @@ public class Applicant extends User {
     private final HashMap<Posting, Interview> interviews = new HashMap<>();
     private String resume;
     private String coverLetter;
-    private ReferenceLetter referenceLetter;
     private ArrayList<String> messages;
     private LocalDate lastApplicationDate;
 
@@ -143,47 +142,15 @@ public class Applicant extends User {
         return false;
     }
 
-    protected void removeApplication(Posting p) {
-        p.removeApplicant(this);
-        this.appliedTo.put(p, "Abandoned");
-        this.interviews.remove(p);
-        if (this.interviews.isEmpty()) {
-            //TODO: When we decide how to change time, change this appropriately.
-            this.lastApplicationDate = Main.date;
-        }
-    }
-
     protected void updateStatus(Posting p, String status) {
         appliedTo.put(p, status);
     }
 
-    protected void viewOffers() {
-        for (Posting p : this.appliedTo.keySet()) {
-            if (this.appliedTo.get(p).equals("Offer")) {
-                this.hire(p);
-            }
-        }
-    }
 
-    private void hire(Posting p) {
-
-
-    }
 
     protected void withdraw(Posting p) {
         this.appliedTo.remove(p);
         this.interviews.remove(p);
     }
 
-    protected void setResume(String resume) {
-        this.resume = resume;
-    }
-
-    protected void setCoverLetter(String coverLetter) {
-        this.coverLetter = coverLetter;
-    }
-
-    protected void setReferenceLetter(ReferenceLetter referenceLetter) {
-        this.referenceLetter = referenceLetter;
-    }
 }
