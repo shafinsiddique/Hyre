@@ -105,6 +105,11 @@ public class EmployeeLoginGUI {
         registerButton.setText("Register");
         GridPane.setConstraints(registerButton, 0, 3);
         registerButton.setOnAction(e->{
+            Company c = portalInterface.findCompany(company.getText());
+            if(this.employeeType.equals(Portal.getInterviewer()) && c.isEmpty()){
+                AlertBox.display("Error", "This company does not exist. " +
+                        "Please contact your coordinator to add your company into the HyRE system.");
+            }
             registerEmployee(username.getText(), password.getText(), company.getText());
         });
 
