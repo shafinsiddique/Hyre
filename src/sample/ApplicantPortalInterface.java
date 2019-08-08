@@ -41,6 +41,11 @@ public class ApplicantPortalInterface {
         return postings;
     }
 
+    /**
+     * Returns this Applicant's current applications.
+     *
+     * @return ArrayList</String> of Applicant's current applications
+     */
     ArrayList<String> getCurrentApplications() {
         ArrayList<String> applications = new ArrayList<>();
         ArrayList<Posting> posts = CurrentApplications();
