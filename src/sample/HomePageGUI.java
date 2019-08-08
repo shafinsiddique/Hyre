@@ -109,9 +109,13 @@ public class HomePageGUI {
             registerGUI.displayRegisterScreen();
         }
 
-        else {
+        else if(Portal.getUserType().equals(Portal.getCoordinator())) {
+            EmployeeLoginGUI registerGUI = new EmployeeLoginGUI(portal, window, portal.getCoordinator());
+            registerGUI.displayRegisterScreen();
 
-
+        }else{
+            EmployeeLoginGUI registerGUI = new EmployeeLoginGUI(portal, window, portal.getInterviewer());
+            registerGUI.displayRegisterScreen();
         }
 
     }

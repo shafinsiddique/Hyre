@@ -1,4 +1,5 @@
 package sample;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -13,12 +14,18 @@ public class ApplicantLoginGUI {
     Portal portalInterface;
     Stage window;
 
-    ApplicantLoginGUI(Portal portal, Stage window){
+    ApplicantLoginGUI(Portal portal, Stage window) {
         this.portalInterface = portal;
         this.window = window;
     }
 
-
+    /**
+     * Validates an Applicant's username and password.
+     *
+     * @param username the Applicant username to be validated
+     * @param password the Applicant password
+     * @see Applicant
+     */
     public void validateApplicant(String username, String password) {
         Applicant a = portalInterface.findApplicant(username, password);
         if (!a.isEmpty()) {
@@ -30,9 +37,14 @@ public class ApplicantLoginGUI {
 
     }
 
+    /**
+     * Existing Applicant's login screen.
+     *
+     * @see Applicant
+     */
     void displayLoginScreen() {
         GridPane loginPage = new GridPane();
-        loginPage.setPadding(new Insets(10,10,10,10));
+        loginPage.setPadding(new Insets(10, 10, 10, 10));
         loginPage.setVgap(8);
         loginPage.setHgap(10);
         loginPage.setAlignment(Pos.CENTER);
@@ -55,7 +67,7 @@ public class ApplicantLoginGUI {
         loginbutton.setText("Login");
         GridPane.setConstraints(loginbutton, 1, 2);
 
-        loginbutton.setOnAction(e -> validateApplicant(username.getText(),password.getText()));
+        loginbutton.setOnAction(e -> validateApplicant(username.getText(), password.getText()));
         loginPage.getChildren().addAll(nameLabel, username, passLabel, password, loginbutton);
 
         Scene loginScene = new Scene(loginPage, 300, 200);
@@ -64,10 +76,14 @@ public class ApplicantLoginGUI {
 
     }
 
-
+    /**
+     * Register an Applicant login screen.
+     *
+     * @see Applicant
+     */
     public void displayRegisterScreen() {
         GridPane registerPage = new GridPane();
-        registerPage.setPadding(new Insets(10,10,10,10));
+        registerPage.setPadding(new Insets(10, 10, 10, 10));
         registerPage.setVgap(8);
         registerPage.setHgap(10);
         registerPage.setAlignment(Pos.CENTER);
@@ -99,7 +115,7 @@ public class ApplicantLoginGUI {
         GridPane.setConstraints(coverletter, 1, 3);
 
 
-        Button registerButton =  new Button();
+        Button registerButton = new Button();
         registerButton.setText("Register");
         GridPane.setConstraints(registerButton, 1, 4);
 
@@ -113,11 +129,20 @@ public class ApplicantLoginGUI {
                 , registerButton);
 
 
-        Scene scene = new Scene(registerPage, 800,500);
+        Scene scene = new Scene(registerPage, 800, 500);
         window.setScene(scene);
 
     }
 
+    /**
+     * Registers an Applicant's username and password, and accepts their resume and cover letter.
+     *
+     * @param name        the Applicant username to be registered
+     * @param password    the Applicant password to be registered
+     * @param resume      text input of the Applicant's resume
+     * @param coverletter text input of the Applicant's cover letter
+     * @see Applicant
+     */
     private void registerApplicant(String name, String password, String resume, String coverletter) {
         Applicant newApplicant = new Applicant(name, password, resume, coverletter);
         portalInterface.registerApplicant(newApplicant);

@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
+/**
+ * Posting Class.
+ *
+ */
 public class Posting {
     private ArrayList<Applicant> jobApplicantList = new ArrayList<>();
     private ArrayList<Interview> interviewList = new ArrayList<>();
@@ -67,6 +71,8 @@ public class Posting {
         return ipInterviews;
     }
 
+
+
     /**
      * Adds tags to a Posting.
      */
@@ -96,7 +102,6 @@ public class Posting {
         String requirements = "Requirements: " + this.requirements + "\n";
         String openingDate = "This posting opened: " + this.openingDate + "\n";
         String closingDate = "This posting closes: " + this.closingDate + "\n";
-        String tags = "Tags: " + this.tags + "\n";
         String rounds = "Rounds: " + this.roundTypes + "\n";
 
         return postingID + company + positionName + positionDesc + requirements + openingDate + closingDate + tags

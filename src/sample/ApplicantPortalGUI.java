@@ -187,7 +187,10 @@ public class ApplicantPortalGUI {
         }
 
         else {
-            ObservableList<String> messages = convertArrayList(applicantInterface.getJobApplicant().getMessages());
+            ObservableList<String> messages = convertArrayList
+                    (applicantInterface.getJobApplicant().getMessages());
+
+            applicantInterface.clearMessages();
             Label label = new Label("Your messages");
             ListView<String>messagesView = new ListView<>();
             messagesView.setItems(messages);
@@ -198,6 +201,7 @@ public class ApplicantPortalGUI {
 
             Scene scene = new Scene(layout);
             window.setScene(scene);
+
 
         }
     }

@@ -64,6 +64,7 @@ public class ApplicantPortalInterface {
         return applications;
     }
 
+    
     ArrayList<String> getApplicationsHistory() {
         ArrayList<String>strings = new ArrayList<>();
 
@@ -102,6 +103,10 @@ public class ApplicantPortalInterface {
         this.allPostings.remove(p);
         this.dbUpdater.updateApplicationStatus(p, "Withdrawn");
 
+    }
+
+    void clearMessages(){
+        dbUpdater.clearMessages();
     }
 
 

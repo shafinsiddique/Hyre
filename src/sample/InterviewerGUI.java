@@ -55,10 +55,10 @@ public class InterviewerGUI {
         Button submitButton = new Button();
         submitButton.setText("Submit review");
         submitButton.setOnAction(e-> {
-            Interviewer interviewer = interview.getInterviewer();
-            interviewer.enterReview(interview, review.getText());
-            interviewerInterface.updateInterviewDatabaseWithReview(interview);
-            AlertBox.display("Success","Review has been submitted."); }
+            interviewerInterface.addReview(interview, review.getText());
+
+            AlertBox.display("Success","Review has been submitted.");
+        }
         );
 
         GridPane.setConstraints(submitButton, 0, 3);

@@ -21,6 +21,7 @@ public class CoordinatorGUI {
     private Applicant chosenApplicant;
     private Interviewer chosenInterviewer;
     private Date chosenDate;
+    private Interview chosenInterview;
 
 
     CoordinatorGUI(CoordinatorPortalInterface coordinatorInterface, Stage window) {
@@ -43,8 +44,9 @@ public class CoordinatorGUI {
     }
 
 
-    private void hiringScene(Interview i){
-        Label label = new Label("This candidate has completed all stages of the interview. Would you like to hire" +
+    private void hiringScene(){
+        Label label = new Label("This candidate has completed all stages of the interview. " +
+                "Would you like to hire " +
                 "the candidate for this position?");
 
         ToggleGroup group = new ToggleGroup();
@@ -61,22 +63,24 @@ public class CoordinatorGUI {
 
         submit.setOnAction(e -> {
             if (rb1.isSelected()) {
-                coordinatorInterface.hire(i);
-                AlertBox.display("Hired.",i.getApplicant() + " has been offered the position of " +
-                        i.getPosting().getPosition() + ".");
+                coordinatorInterface.hire(chosenInterview);
+                AlertBox.display("Hired.",chosenInterview.getApplicant().getUsername() + " " +
+                        "has been offered the position of " +
+                        chosenInterview.getPosting().getPosition() + ".");
 
             }
 
             else{
-                coordinatorInterface.reject(i);
-                AlertBox.display("Rejected",i.getApplicant() + " has been rejected for the position" +
-                        "of " + i.getPosting().getPosition());
+                coordinatorInterface.reject(chosenInterview);
+                AlertBox.display("Rejected",chosenInterview.getApplicant().getUsername() + " " +
+                        "has been rejected for the position" +
+                        "of " + chosenInterview.getPosting().getPosition());
             }
         });
 
         VBox layout = new VBox(10);
         layout.setAlignment(Pos.CENTER);
-        layout.getChildren().addAll(label,rb1, rb2, submit);
+        layout.getChildren().addAll(label,rb1, rb2, submit, backButton);
         Scene scene = new Scene(layout, 200, 200);
         window.setScene(scene);
 
@@ -98,14 +102,14 @@ public class CoordinatorGUI {
             }
 
             else {
-                Interview interview = coordinatorInterface.findInProcessInterview(i);
+                chosenInterview = coordinatorInterface.findInProcessInterview(i);
 
-                if (interview.completedFinalRound()){
-                    hiringScene(interview);
+                if (chosenInterview.completedFinalRound()){
+                    hiringScene();
                 }
 
                 else {
-                    moveUpCandidateScene(interview);
+                    moveUpCandidateScene();
                 }
 
             }
@@ -121,7 +125,7 @@ public class CoordinatorGUI {
 
     }
 
-    private void moveUpCandidateScene(Interview i) {
+    private void moveUpCandidateScene() {
         Label label = new Label("Would you like to move this candidate to the next round?");
 
         ToggleGroup group = new ToggleGroup();
@@ -138,21 +142,23 @@ public class CoordinatorGUI {
 
         submit.setOnAction(e -> {
             if (rb1.isSelected()) {
-                chosenApplicant = i.getApplicant();
-                chosenPosting = i.getPosting();
+                chosenApplicant = chosenInterview.getApplicant();
+                chosenPosting = chosenInterview.getPosting();
                 viewInterviewersScreen();
             }
 
             else{
-                coordinatorInterface.reject(i);
-                AlertBox.display("Rejected",i.getApplicant() + " has been rejected for the position" +
-                        "of " + i.getPosting().getPosition());
+                coordinatorInterface.reject(chosenInterview);
+                AlertBox.display("Rejected",chosenInterview.getApplicant().getUsername()
+                        +
+                        " has been rejected for the position" +
+                        "of " + chosenInterview.getPosting().getPosition());
             }
         });
 
         VBox layout = new VBox(10);
         layout.setAlignment(Pos.CENTER);
-        layout.getChildren().addAll(label,rb1, rb2, submit);
+        layout.getChildren().addAll(label,rb1, rb2, submit, backButton);
         Scene scene = new Scene(layout, 200, 200);
         window.setScene(scene);
 
@@ -190,18 +196,32 @@ public class CoordinatorGUI {
     }
 
     private void scheduleInterview(){
-        if (chosenApplicant.hasInterviewFor(chosenPosting)) {
-            AlertBox.display("Error","Applicant has already been chosen for an interview");
-        }
 
-        else{
+        if (chosenInterview != null) {
+            coordinatorInterface.moveUpCandidate(chosenInterview, chosenDate, chosenInterviewer);
+
             Interview i =
                     coordinatorInterface.scheduleInterview(chosenPosting, chosenApplicant,
                             chosenInterviewer,
-                    chosenDate);
+                            chosenDate);
 
-            AlertBox.display("Success","Interview has been scheduled.\n\nInterview Info:" +
+            AlertBox.display("Success", "Interview has been scheduled.\n\nInterview Info:" +
                     "\n" + i.getAllInfo());
+
+        }
+
+        else {
+            if (chosenApplicant.hasInterviewFor(chosenPosting)) {
+                AlertBox.display("Error", "Applicant has already been chosen for an interview");
+            } else {
+                Interview i =
+                        coordinatorInterface.scheduleInterview(chosenPosting, chosenApplicant,
+                                chosenInterviewer,
+                                chosenDate);
+
+                AlertBox.display("Success", "Interview has been scheduled.\n\nInterview Info:" +
+                        "\n" + i.getAllInfo());
+            }
         }
     }
 
@@ -231,7 +251,7 @@ public class CoordinatorGUI {
         });
 
         GridPane.setConstraints(submit, 0, 2);
-        createP.getChildren().addAll(idLabel, dateD, submit);
+        createP.getChildren().addAll(idLabel, dateD, submit, backButton);
 
         Scene scene = new Scene(createP, 200,200);
 

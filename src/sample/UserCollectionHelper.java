@@ -109,7 +109,8 @@ class UserCollectionHelper {
             Company c = this.portal.findCompany(d.getString("company"));
             Posting p = c.findPostingWithID(d.getInteger("postingID"));
             a.addPostingToAppliedList(p, d.getString("status"));
-            p.addApplicant(a); //Check this
+            p.addApplicant(a);
+
         }
     }
 
@@ -184,7 +185,7 @@ class UserCollectionHelper {
     }
 
     private void updatePostingStatus(Posting p, String status) {
-        Document d = new Document().append("name", p.getCompanyName()).append("postingID",
+        Document d = new Document().append("company", p.getCompanyName()).append("postingID",
                 p.getPostingID()).append("status", status);
 
         users.updateOne(Filters.eq("username", jobApplicant.getUsername()),
