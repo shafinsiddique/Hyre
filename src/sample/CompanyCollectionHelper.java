@@ -39,10 +39,8 @@ class CompanyCollectionHelper {
             c.setPostings(loadPostings((List<Document>) d.get("postings"), c));
             c.setCoordinators(loadEmployees((List<Document>) d.get("coordinators"), c, "coordinator"));
             c.setInterviewers(loadEmployees((List<Document>) d.get("interviewers"), c, "interviewer"));
-
             companies.add(c);
         }
-
         return companies;
     }
 

@@ -2,6 +2,7 @@ package sample;
 
 import com.mongodb.client.MongoCollection;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -40,9 +41,28 @@ public class ApplicantPortalInterface {
         return postings;
     }
 
+    ArrayList<String> getCurrentApplications() {
+        ArrayList<String> applications = new ArrayList<>();
+        ArrayList<Posting> posts = CurrentApplications();
+        for (Posting p: posts) {
+            String info = p.getAllInfo() + "Status:" +jobApplicant.getAppliedTo().get(p);
+            applications.add(info);
+        }
+        return applications;
+    }
 
-
-
+    ArrayList<Posting> CurrentApplications() {
+        ArrayList<Posting> applications = new ArrayList<>();
+        for (Posting p: jobApplicant.getInterviews().keySet()) {
+            applications.add(p);
+        }
+        for (Posting p: jobApplicant.getAppliedTo().keySet()) {
+            if (jobApplicant.getAppliedTo().get(p).equalsIgnoreCase("Pending")) {
+                applications.add(p);
+            }
+        }
+        return applications;
+    }
 
     ArrayList<String> getApplicationsHistory() {
         ArrayList<String>strings = new ArrayList<>();
@@ -50,9 +70,7 @@ public class ApplicantPortalInterface {
         for (Posting p: jobApplicant.getAppliedTo().keySet()) {
             String info = p.getAllInfo() + "Status: " + jobApplicant.getAppliedTo().get(p);
             strings.add(info);
-
         }
-
         return strings;
     }
 

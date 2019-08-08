@@ -131,7 +131,6 @@ public class Applicant extends User {
     protected void apply(Posting p) {
         this.appliedTo.put(p, "Pending");
         p.addApplicant(this);
-
     }
 
     protected boolean hasInterviewFor(Posting P) {

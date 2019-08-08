@@ -50,10 +50,23 @@ public class ApplicantPortalGUI {
         return FXCollections.observableArrayList(a);
     }
 
-
     private void showApplicationHistory() {
         ListView<String> applicationsList = new ListView();
         ObservableList<String>applications = convertArrayList(applicantInterface.getApplicationsHistory());
+
+        applicationsList.setItems(applications);
+
+        VBox layout = new VBox(10);
+        layout.setPadding(new Insets(10,10,10,10));
+        layout.getChildren().addAll(applicationsList, backButton);
+
+        Scene scene = new Scene(layout, 800,400);
+        window.setScene(scene);
+    }
+
+    private void showCurrentApplicantions() {
+        ListView<String> applicationsList = new ListView();
+        ObservableList<String> applications = convertArrayList(applicantInterface.getCurrentApplications());
 
         applicationsList.setItems(applications);
 
@@ -162,7 +175,7 @@ public class ApplicantPortalGUI {
         }
 
         else {
-            applicantInterface.withdraw(applicantInterface.getPosting(index));
+            applicantInterface.withdraw(applicantInterface.CurrentApplications().get(index));
             AlertBox.display("Success","You have successfully withdrawn this application");
 
         }
@@ -196,8 +209,10 @@ public class ApplicantPortalGUI {
         viewPostings.setOnAction(e -> showPostingsPage(applicantInterface.getPostingsStrings
                 (applicantInterface.getAllPostings())));
         Button applicanHistory = new Button();
-        applicanHistory.setText("View all your applications");
+        applicanHistory.setText("View Application History");
         applicanHistory.setOnAction(e -> showApplicationHistory());
+        Button currentApplications = new Button("View Current Applications");
+        currentApplications.setOnAction(e -> showCurrentApplicantions());
         Button profile = new Button();
         profile.setText("View Profile");
         profile.setOnAction(e -> showProfile());
@@ -209,7 +224,7 @@ public class ApplicantPortalGUI {
         logOut.setOnAction(e -> window.setScene(HomePageGUI.getHomeScene()));
         VBox homeLayout = new VBox(10);
         homeLayout.setAlignment(Pos.CENTER);
-        homeLayout.getChildren().addAll(welcome, profile, notifications, viewPostings, applicanHistory, logOut);
+        homeLayout.getChildren().addAll(welcome, profile, notifications, viewPostings, applicanHistory, currentApplications, logOut);
 
         homeScene = new Scene(homeLayout, 300,300);
 
