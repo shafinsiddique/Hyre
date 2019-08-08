@@ -96,16 +96,20 @@ public class Portal {
         applicantsDatabaseHelper.writeDocument(document);
     }
 
-    protected CoordinatorPortalInterface registerCoordinator(Coordinator coord, Company company){
+    protected CoordinatorPortalInterface registerCoordinator(String username, String password,
+                                                             Company company){
+
+        Coordinator coord = new Coordinator(username, password, company);
         if(!companies.contains(company)){
             companies.add(company);
+            company.addCoordinator(coord);
             companyDatabaseHelper.addNewCompany(company);
         }
-        companyDatabaseHelper.addCoordinator(coord);
         return new CoordinatorPortalInterface(coord,applicantsCollection,companiesCollection);
     }
 
-    protected InterviewerPortalInterface registerInterviewer(Interviewer interviewer, Company company){
+    protected InterviewerPortalInterface registerInterviewer(String username, String password, Company company){
+        Interviewer interviewer = new Interviewer(username, password, company);
         companyDatabaseHelper.addInterviewer(interviewer);
         company.addInterviewer(interviewer);
         return new InterviewerPortalInterface(interviewer, applicantsCollection);
