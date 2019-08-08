@@ -37,10 +37,10 @@ public class InterviewerPortalInterface {
         newHelper.updateInterviewRoundReview(i);
     }
 
-    void addReview(int selectInterview, String review){
-        Interview i = interviewer.getTodayInterviews().get(selectInterview - 1);
-        interviewer.enterReview(i, review);
+    void addReview(Interview i, String review) {
+        i.getInterviewer().enterReview(i, review);
         updateInterviewDatabaseWithReview(i);
+
     }
 
     protected Interview findTodayInterview(int index){
@@ -164,6 +164,7 @@ class Interviewer extends User {
     protected void enterReview(Interview i, String review) {
         String round = i.getPosting().getRoundTypes().get(i.getRound());
         i.setReviewForRound(round, review);
+
     }
 
 }

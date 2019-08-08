@@ -136,7 +136,7 @@ public class Applicant extends User {
 
     protected boolean hasInterviewFor(Posting P) {
         for (Posting post : this.getInterviews().keySet()) {
-            if (post.getPostingID() == P.getPostingID()) {
+            if (post.getPostingID() == P.getPostingID() && this.getInterviews().get(post).getInterviewer()!=null) {
                 return true;
             }
         }

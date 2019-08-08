@@ -119,7 +119,7 @@ class UserCollectionHelper {
     }
 
     public void addApplication(Posting p) {
-        Document d = new Document().append("name", p.getCompanyName()).append("postingID", p.getPostingID())
+        Document d = new Document().append("company", p.getCompanyName()).append("postingID", p.getPostingID())
                 .append("status", "Pending");
 
         users.updateOne(Filters.eq("username", jobApplicant.getUsername()), Updates.addToSet("appliedTo", d));
@@ -184,7 +184,7 @@ class UserCollectionHelper {
     }
 
     private void updatePostingStatus(Posting p, String status) {
-        Document d = new Document().append("name", p.getCompanyName()).append("postingID",
+        Document d = new Document().append("company", p.getCompanyName()).append("postingID",
                 p.getPostingID()).append("status", status);
 
         users.updateOne(Filters.eq("username", jobApplicant.getUsername()),
