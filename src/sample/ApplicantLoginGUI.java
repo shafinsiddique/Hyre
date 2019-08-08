@@ -32,9 +32,7 @@ public class ApplicantLoginGUI {
             ApplicantPortalGUI applicantGUI = new ApplicantPortalGUI(
                     portalInterface.Applicantlogin(a), window);
             applicantGUI.run();
-
         }
-
     }
 
     /**
