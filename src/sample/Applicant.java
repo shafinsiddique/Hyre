@@ -93,6 +93,11 @@ public class Applicant extends User {
         return this.dateCreated;
     }
 
+    /**
+     * A method to display Applicant's username, resume and cover letter
+     *
+     * @return String (concatenated) of Applicant info
+     */
     protected String getAllInfo() {
         return "Applicant Name: " + this.getUsername() + "\n" +
                 "Resume: " + resume + "\n" +
@@ -109,7 +114,12 @@ public class Applicant extends User {
         appliedTo.put(p, status);
     }
 
-
+    /**
+     * A method to for an Applicant to an application by postingID
+     *
+     * @param postingID
+     * @return Posting
+     */
     protected Posting findApplication(int postingID) {
         for (Posting p : this.appliedTo.keySet()) {
             if (p.getPostingID() == postingID) {
@@ -119,6 +129,12 @@ public class Applicant extends User {
         return new Posting();
     }
 
+    /**
+     * A method to determine whether an Applicant has applied to a posting
+     *
+     * @param p
+     * @return boolean
+     */
     protected boolean alreadyAppliedFor(Posting p) {
         for (Posting post : this.appliedTo.keySet()) {
             if (post.getPostingID() == p.getPostingID()) {
@@ -128,21 +144,36 @@ public class Applicant extends User {
         return false;
     }
 
+    /**
+     * A method for an Applicant to apply to a posting
+     *
+     * @param p
+     */
     protected void apply(Posting p) {
         this.appliedTo.put(p, "Pending");
         p.addApplicant(this);
 
     }
 
+    /**
+     * A method to determine whether an Applicant has an interview for a posting
+     *
+     * @param p
+     */
     protected boolean hasInterviewFor(Posting P) {
         for (Posting post : this.getInterviews().keySet()) {
-            if (post.getPostingID() == P.getPostingID() && this.getInterviews().get(post).getInterviewer()!=null) {
+            if (post.getPostingID() == P.getPostingID() && this.getInterviews().get(post).getInterviewer() != null) {
                 return true;
             }
         }
         return false;
     }
 
+    /**
+     * A method for an Applicant to remove an application to a posting
+     *
+     * @param p
+     */
     protected void removeApplication(Posting p) {
         p.removeApplicant(this);
         this.appliedTo.put(p, "Abandoned");
@@ -157,6 +188,9 @@ public class Applicant extends User {
         appliedTo.put(p, status);
     }
 
+    /**
+     * A method for an Applicant to view offers
+     */
     protected void viewOffers() {
         for (Posting p : this.appliedTo.keySet()) {
             if (this.appliedTo.get(p).equals("Offer")) {
@@ -166,10 +200,15 @@ public class Applicant extends User {
     }
 
     private void hire(Posting p) {
-
+        //TODO: need this method?
 
     }
 
+    /**
+     * A method for an Applicant to withdraw an application to a posting
+     *
+     * @param p
+     */
     protected void withdraw(Posting p) {
         this.appliedTo.remove(p);
         this.interviews.remove(p);
