@@ -32,9 +32,7 @@ public class ApplicantLoginGUI {
             ApplicantPortalGUI applicantGUI = new ApplicantPortalGUI(
                     portalInterface.Applicantlogin(a), window);
             applicantGUI.run();
-
         }
-
     }
 
     /**
@@ -68,7 +66,13 @@ public class ApplicantLoginGUI {
         GridPane.setConstraints(loginbutton, 1, 2);
 
         loginbutton.setOnAction(e -> validateApplicant(username.getText(), password.getText()));
-        loginPage.getChildren().addAll(nameLabel, username, passLabel, password, loginbutton);
+
+        Button back = new Button("Go Back");
+        GridPane.setConstraints(back, 1, 3);
+
+        back.setOnAction(e -> new HomePageGUI(this.portalInterface, this.window).showHomePage());
+        loginPage.getChildren().addAll(nameLabel, username, passLabel, password, loginbutton, back);
+
 
         Scene loginScene = new Scene(loginPage, 300, 200);
         window.setScene(loginScene);
@@ -123,10 +127,15 @@ public class ApplicantLoginGUI {
                 registerApplicant(username.getText(), password.getText(),
                         resume.getText(), coverletter.getText()));
 
+        Button back = new Button("Go Back");
+        GridPane.setConstraints(back, 1, 5);
+
+        back.setOnAction(e -> new HomePageGUI(this.portalInterface, this.window).showHomePage());
+
         registerPage.getChildren().addAll(nameLabel, username, passLabel, password, resumeLabel,
                 resume, coverletter,
                 coverLetterlabel
-                , registerButton);
+                , registerButton, back);
 
 
         Scene scene = new Scene(registerPage, 800, 500);

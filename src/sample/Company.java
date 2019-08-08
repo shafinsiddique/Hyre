@@ -7,17 +7,20 @@ class Company {
     private String name;
     private ArrayList<Posting> postings;
     private ArrayList<Interviewer> interviewers;
-    private ArrayList<Coordinator> coordinators = new ArrayList<>();
+    private ArrayList<Coordinator> coordinators;
 
     protected Company(String name) {
 
         this.name = name;
+        this.postings = new ArrayList<>();
         this.interviewers = new ArrayList<>();
         this.coordinators = new ArrayList<>();
     }
 
     protected Company() {
-
+        this.postings = new ArrayList<>();
+        this.interviewers = new ArrayList<>();
+        this.coordinators = new ArrayList<>();
     }
 
     protected ArrayList<Coordinator> getCoordinators() {
