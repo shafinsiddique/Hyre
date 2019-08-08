@@ -13,12 +13,19 @@ public class EmployeeLoginGUI {
     Portal portalInterface;
     Stage window;
     String employeeType;
+
     EmployeeLoginGUI(Portal portal, Stage window, String employeeType) {
         this.portalInterface = portal;
         this.window = window;
         this.employeeType = employeeType;
     }
 
+    /**
+     * A method for a Coordinator to login
+     *
+     * @param username
+     * @param password
+     */
     public void loginCoordinator(String username, String password) {
         Coordinator c = portalInterface.findCoordinator(username, password);
 
@@ -26,13 +33,18 @@ public class EmployeeLoginGUI {
             CoordinatorGUI newCoord = new CoordinatorGUI(
                     portalInterface.coordinatorLogin(c), window);
             newCoord.run();
-        }
-        else {
-            AlertBox.display("Error","Invalid Credentials.");
+        } else {
+            AlertBox.display("Error", "Invalid Credentials.");
         }
 
     }
 
+    /**
+     * A method for an Interviewer to login
+     *
+     * @param username
+     * @param password
+     */
     public void loginInterviewer(String username, String password) {
         Interviewer i = portalInterface.findInterviewer(username, password);
 
@@ -40,15 +52,14 @@ public class EmployeeLoginGUI {
             InterviewerGUI newInterviewer = new InterviewerGUI(
                     portalInterface.interviewerLogin(i), window);
             newInterviewer.run();
-        }
-        else {
-            AlertBox.display("Error","Invalid Credentials.");
+        } else {
+            AlertBox.display("Error", "Invalid Credentials.");
         }
     }
 
-    public void displayLoginScreen(){
+    public void displayLoginScreen() {
         GridPane loginPage = new GridPane();
-        loginPage.setPadding(new Insets(10,10,10,10));
+        loginPage.setPadding(new Insets(10, 10, 10, 10));
         loginPage.setVgap(8);
         loginPage.setHgap(10);
         loginPage.setAlignment(Pos.CENTER);
@@ -73,9 +84,7 @@ public class EmployeeLoginGUI {
 
         if (employeeType.equals(Portal.getCoordinator())) {
             loginbutton.setOnAction(e -> loginCoordinator(username.getText(), password.getText()));
-        }
-
-        else {
+        } else {
             loginbutton.setOnAction(e -> loginInterviewer(username.getText(), password.getText()));
         }
 
